@@ -11,7 +11,7 @@ recommends_mcp: []
 
 > **Skill Reference**:
 >
-> - [obsidian-conventions](../skills/obsidian-conventions/SKILL.md) — File naming, tag format, vault path
+> - [obsidian-conventions](../skills/obsidian-conventions/SKILL.md) — File naming, tag format, vault path, CLI commands
 
 ## When to Use
 
@@ -20,13 +20,20 @@ recommends_mcp: []
 - You want to bookmark a topic for later exploration
 - Any time — this should be the lowest-friction action in the toolkit
 
+## CLI Commands Used
+
+```bash
+obsidian create name="YYYY-MM-DD Title" content="..." template=fleeting open
+obsidian files folder=00_Inbox          # Check for filename collisions
+obsidian vault info=path                # Get vault path if needed
+```
+
 ## Steps
 
 // turbo-all
 
 1. **Read vault config** from `../config.md`:
-   - Get the vault path
-   - Get the inbox folder name
+   - Get the vault path and inbox folder name
 
 2. **Parse the user's input**:
    - Extract the content (everything the user typed after `/cx-capture`)
@@ -34,18 +41,16 @@ recommends_mcp: []
    - Generate a title: use the first sentence or a slugified summary if no clear title
    - Generate a filename: `YYYY-MM-DD {title}.md`
 
-3. **Check for filename collision**:
-   - If a file with that name already exists in the inbox folder, append a numeric suffix: `YYYY-MM-DD {title} 2.md`
+3. **Create the note** via Obsidian CLI:
 
-4. **Create the note**:
-   - Use the `fleeting.md` template
-   - Replace `{title}` with the generated title
-   - Replace `{content}` with the user's full input
-   - Replace `{tags}` with any extracted tags (or remove the line if none)
+   ```bash
+   obsidian create path="00_Inbox/YYYY-MM-DD {title}.md" content="{content}" template=fleeting
+   ```
 
-5. **Write the file** to `{vault_path}/{inbox_folder}/{filename}`
+   - The CLI will error if the file already exists — if so, append a numeric suffix and retry
+   - Falls back to `write_to_file` if Obsidian is not running
 
-6. **Confirm**:
+4. **Confirm**:
    - Report: `✅ Captured → {inbox_folder}/{filename}`
    - Suggest: "Run `/cx-inbox` later to process and file this note."
 

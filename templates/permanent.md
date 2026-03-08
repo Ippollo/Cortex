@@ -1,9 +1,13 @@
-# {title}
+---
+date: { { date } }
+type: permanent
+tags: []
+---
 
-{content}
+# {{title}}
+
+{{content}}
 
 ## Related
 
-- {links}
-
-{tags}
+-

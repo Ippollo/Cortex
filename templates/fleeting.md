@@ -1,5 +1,9 @@
-# {title}
+---
+date: { { date } }
+type: fleeting
+tags: []
+---
 
-{content}
+# {{title}}
 
-{tags}
+{{content}}

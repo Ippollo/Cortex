@@ -16,7 +16,7 @@ recommends_mcp: [sequential-thinking]
 > **Skill Reference**:
 >
 > - [pkm-methodology](../skills/pkm-methodology/SKILL.md) — Connection principles
-> - [obsidian-conventions](../skills/obsidian-conventions/SKILL.md) — Wikilink syntax
+> - [obsidian-conventions](../skills/obsidian-conventions/SKILL.md) — Wikilink syntax, CLI commands
 
 ## When to Use
 
@@ -25,19 +25,37 @@ recommends_mcp: [sequential-thinking]
 - When reviewing an older note and wanting to enrich it
 - After adding several new notes on a topic
 
+## CLI Commands Used
+
+```bash
+obsidian read file="Note Title"                    # Read the target note
+obsidian backlinks file="Note Title" format=json   # Find what links to it
+obsidian links file="Note Title"                   # Find its outgoing links
+obsidian tags file="Note Title"                    # Get its tags
+obsidian search query="..." format=json            # Find content-similar notes
+obsidian tag name="tagname" verbose                # Find notes sharing a tag
+obsidian orphans                                   # Find unconnected notes
+obsidian append file="Note Title" content="..."    # Add approved links
+```
+
 ## Steps
 
 1. **Identify the target note**:
    - If the user specifies a note: use that
    - If no note specified: ask which note to connect, or offer to scan recent additions
 
-2. **Read the target note** fully
+2. **Read the target note** via CLI:
 
-3. **Scan the vault** for related notes:
-   - **Title matching**: Find notes whose titles share words or concepts with the target
-   - **Tag overlap**: Find notes with the same `#tags`
-   - **Content similarity**: Use AI to find semantically related notes even without keyword overlap
-   - **Existing links**: Check what the target already links to (avoid re-suggesting)
+   ```bash
+   obsidian read file="Note Title"
+   ```
+
+3. **Scan the vault** for related notes using CLI:
+   - **Existing links**: `obsidian links file="Note Title"` — check what it already links to (avoid re-suggesting)
+   - **Backlinks**: `obsidian backlinks file="Note Title"` — see what already links to it
+   - **Tag overlap**: `obsidian tags file="Note Title"` → then `obsidian tag name="tagname" verbose` for each tag
+   - **Content similarity**: `obsidian search query="key concepts from note" format=json` + AI semantic matching
+   - **Title matching**: `obsidian search query="title keywords"` to find related titles
 
 4. **Present suggestions** (ranked by relevance):
 
@@ -51,7 +69,12 @@ recommends_mcp: [sequential-thinking]
    Approve (a)ll, approve (s)ome, or (n)one?
    ```
 
-5. **Add approved links**:
+5. **Add approved links** via CLI:
+
+   ```bash
+   obsidian append file="Note Title" content="\n## Related\n- [[Building Agentic apps]]\n- [[The Perfect Work Day]]"
+   ```
+
    - Append a `## Related` section to the note (if it doesn't have one)
    - Add each approved `[[wikilink]]` as a list item
    - Optionally: add a reciprocal link in the connected note (ask user)
@@ -62,13 +85,13 @@ recommends_mcp: [sequential-thinking]
 
 ```bash
 # Connect a specific note
-/connect "My Productivity Workflow"
+/cx-connect "My Productivity Workflow"
 
 # Connect the most recently captured note
-/connect latest
+/cx-connect latest
 
 # Connect all notes in a folder
-/connect --folder "20_Ideas"
+/cx-connect --folder "20_Ideas"
 ```
 
 ## Key Principles

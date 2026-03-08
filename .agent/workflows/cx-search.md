@@ -11,7 +11,7 @@ recommends_mcp: []
 
 > **Skill Reference**:
 >
-> - [obsidian-conventions](../skills/obsidian-conventions/SKILL.md) — Vault path, file structure
+> - [obsidian-conventions](../skills/obsidian-conventions/SKILL.md) — Vault path, file structure, CLI commands
 
 ## When to Use
 
@@ -20,18 +20,43 @@ recommends_mcp: []
 - Before creating a new note, to check if one already exists
 - When `/cx-connect` or `/cx-synthesize` need to discover related notes
 
+## CLI Commands Used
+
+```bash
+obsidian search query="..." format=json         # Keyword search across vault
+obsidian search:context query="..." format=json # Search with matching line context
+obsidian search query="..." path="folder"       # Search within a folder
+obsidian search query="..." total               # Get match count
+obsidian tag name="tagname" verbose              # Find notes with a specific tag
+obsidian tags counts sort=count                  # List all tags by frequency
+obsidian read file="Note Title"                  # Read a selected result
+```
+
 ## Steps
 
 1. **Read vault config** from `../config.md`
 
 2. **Parse the query** from the user's input
 
-3. **Search the vault** using multiple strategies:
+3. **Search the vault** using CLI:
 
-   a. **Filename match**: Search note titles for the query terms
-   b. **Tag match**: Search for `#tags` matching the query
-   c. **Content match**: Grep note content for the query terms
-   d. **Semantic match**: Use AI to find notes related to the concept even without exact keywords
+   a. **Full-text search** with context:
+
+   ```bash
+   obsidian search:context query="productivity" format=json
+   ```
+
+   Returns grep-style `path:line: text` output for all matches.
+
+   b. **Tag match**:
+
+   ```bash
+   obsidian tag name="productivity" verbose
+   ```
+
+   Returns all files tagged with `#productivity`.
+
+   c. **Semantic match**: Use AI to evaluate the search results and find notes related to the concept even without exact keyword overlap.
 
 4. **Rank results** by relevance:
    - Exact title matches first
@@ -59,19 +84,22 @@ recommends_mcp: []
    View a note? (enter number)
    ```
 
-6. **On selection**: Display the full note content inline
+6. **On selection**: Read and display the full note:
+   ```bash
+   obsidian read file="My Productivity Workflow"
+   ```
 
 ## Usage
 
 ```bash
 # Search by concept
-/search "productivity"
+/cx-search "productivity"
 
 # Search by question
-/search "how I manage my time"
+/cx-search "how I manage my time"
 
 # Search for a specific note
-/search "Marco"
+/cx-search "Marco"
 ```
 
 ## Key Principles

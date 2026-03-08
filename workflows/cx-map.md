@@ -16,7 +16,7 @@ recommends_mcp: [sequential-thinking]
 > **Skill Reference**:
 >
 > - [pkm-methodology](../skills/pkm-methodology/SKILL.md) — MOC patterns
-> - [obsidian-conventions](../skills/obsidian-conventions/SKILL.md) — Wikilink format, file creation
+> - [obsidian-conventions](../skills/obsidian-conventions/SKILL.md) — Wikilink format, file creation, CLI commands
 
 ## When to Use
 
@@ -25,13 +25,32 @@ recommends_mcp: [sequential-thinking]
 - Before writing or presenting on a topic (build the map first)
 - When onboarding future-you (or others) to a topic
 
+## CLI Commands Used
+
+```bash
+obsidian search query="..." format=json          # Find notes related to topic
+obsidian tag name="tagname" verbose               # Find notes sharing a tag
+obsidian tags counts sort=count format=json       # Discover tag vocabulary
+obsidian read file="Note Title"                   # Read candidate notes
+obsidian backlinks file="Note Title" format=json  # Check note connectivity
+obsidian orphans                                  # Find unconnected notes to include
+obsidian create name="MOC - Topic" template=moc   # Create the MOC note
+obsidian append file="MOC - Topic" content="..."  # Update existing MOC
+```
+
 ## Steps
 
 1. **Identify the topic** from the user's input
 
-2. **Scan the vault** for related notes:
-   - Search by title keywords, `#tags`, and content similarity
+2. **Scan the vault** for related notes using CLI:
+
+   ```bash
+   obsidian search query="productivity" format=json   # Content/title matches
+   obsidian tag name="productivity" verbose            # Tag matches
+   ```
+
    - Include notes from all folders (except `99_System`)
+   - Use AI to assess relevance from search results
 
 3. **Present findings**:
 
@@ -59,26 +78,30 @@ recommends_mcp: [sequential-thinking]
    Create this MOC?
    ```
 
-4. **Create or update the MOC**:
-   - Use the `moc.md` template
+4. **Create or update the MOC** via CLI:
+
+   ```bash
+   obsidian create name="MOC - Productivity" template=moc content="..." open
+   ```
+
    - Save to the user's chosen folder (suggest `40_Reference` or root)
-   - Filename: `MOC - {topic}.md`
+   - Falls back to `write_to_file` if Obsidian is not running
 
 5. **Handle existing MOCs**:
-   - If a MOC for this topic exists, show what's new and offer to merge
-   - Add new notes, preserve existing groupings and user customizations
+   - Check if a MOC for this topic exists: `obsidian search query="MOC - Productivity"`
+   - If it exists, read it with `obsidian read`, show what's new, and offer to merge via `obsidian append`
 
 ## Usage
 
 ```bash
 # Create a MOC for a topic
-/map "productivity"
+/cx-map "productivity"
 
 # Update an existing MOC
-/map "career"
+/cx-map "career"
 
 # Create a MOC for a tag
-/map #architecture
+/cx-map #architecture
 ```
 
 ## Key Principles

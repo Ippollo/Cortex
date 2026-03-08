@@ -20,19 +20,44 @@ recommends_mcp: []
 - When you want to rediscover ideas you've forgotten
 - After a period of heavy capture, to integrate new notes with old
 
+## CLI Commands Used
+
+```bash
+obsidian files folder="20_Ideas"                # List files in a folder
+obsidian file file="Note Title"                 # Get metadata (created, modified, size)
+obsidian backlinks file="Note Title" total      # Count incoming links
+obsidian links file="Note Title" total          # Count outgoing links
+obsidian orphans                                # Notes with zero incoming links
+obsidian deadends                               # Notes with zero outgoing links
+obsidian read file="Note Title"                 # Read note content
+obsidian tags file="Note Title"                 # Get note tags
+obsidian append file="Note Title" content="..." # Add review notes
+```
+
 ## Steps
 
 1. **Read vault config** from `../config.md`
 
-2. **Scan the vault** (excluding `00_Inbox` and `99_System`):
-   - Read file modification dates
-   - Count `[[wikilinks]]` (both incoming and outgoing) for each note
-   - Identify `#tags` per note
+2. **Scan the vault** via CLI (excluding `00_Inbox` and `99_System`):
+
+   ```bash
+   obsidian files ext=md                    # List all markdown files
+   obsidian file file="Note Title"          # Get modified date per note
+   obsidian backlinks file="Note Title" total  # Get link count per note
+   ```
+
+   - Also check for orphans and dead-ends as priority candidates:
+
+   ```bash
+   obsidian orphans    # High-priority: unlinked, forgotten notes
+   obsidian deadends   # Notes that don't link out — potential to connect
+   ```
 
 3. **Score and rank notes** for review priority:
    - **Recency weight**: Notes not modified in 30+ days rank higher
    - **Connection weight**: Notes with more links are higher value (they connect ideas)
    - **Novelty weight**: Notes never reviewed before rank higher
+   - **Orphan bonus**: Unlinked notes are prioritized for connection
    - **Exclude**: Notes modified in the last 7 days (too fresh)
 
 4. **Surface 3-5 notes**:
@@ -41,17 +66,17 @@ recommends_mcp: []
    📖 Review session — 4 notes to revisit:
 
    1. "The Value of Constraints" (20_Ideas) — last modified 45 days ago, 3 links
-   2. "Conversation with Marco" (30_People) — last modified 60 days ago, 0 links
+   2. "Conversation with Marco" (30_People) — last modified 60 days ago, 0 links ⚠️ orphan
    3. "Event Sourcing for Audit Trails" (40_Reference) — last modified 30 days ago, 1 link
    4. "Why I Build in Public" (10_Reflection) — last modified 90 days ago, 2 links
 
    Start with #1?
    ```
 
-5. **For each note**, show the content and offer actions:
-   - **✏️ Update** — Edit the note (add context, refine wording, distill further)
+5. **For each note**, read via `obsidian read` and offer actions:
+   - **✏️ Update** — Edit the note (add context, refine wording, distill further) via `obsidian append`
    - **🔗 Connect** — Run `/cx-connect` on this note to add links
-   - **✅ Mark reviewed** — Touch the file's modification date to reset the review clock
+   - **✅ Mark reviewed** — Touch the file to reset the review clock
    - **⏭️ Skip** — Move to the next note
 
 6. **Summary** after the session:
@@ -62,13 +87,13 @@ recommends_mcp: []
 
 ```bash
 # Standard review session (3-5 notes)
-/review
+/cx-review
 
 # Review notes from a specific folder
-/review --folder "20_Ideas"
+/cx-review --folder "20_Ideas"
 
 # Review notes with a specific tag
-/review #productivity
+/cx-review #productivity
 ```
 
 ## Key Principles

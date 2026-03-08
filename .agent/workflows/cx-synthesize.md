@@ -16,7 +16,7 @@ recommends_mcp: [sequential-thinking]
 > **Skill Reference**:
 >
 > - [pkm-methodology](../skills/pkm-methodology/SKILL.md) — Synthesis methodology
-> - [obsidian-conventions](../skills/obsidian-conventions/SKILL.md) — Wikilink format, file creation
+> - [obsidian-conventions](../skills/obsidian-conventions/SKILL.md) — Wikilink format, file creation, CLI commands
 
 ## When to Use
 
@@ -25,11 +25,27 @@ recommends_mcp: [sequential-thinking]
 - You notice recurring themes across your notes
 - During a review session when patterns emerge
 
+## CLI Commands Used
+
+```bash
+obsidian search query="..." format=json          # Find related notes by topic
+obsidian tag name="tagname" verbose               # Find notes by tag
+obsidian read file="Note Title"                   # Read each source note
+obsidian backlinks file="Note Title" format=json  # Check connectivity
+obsidian create name="Synthesis: Topic" template=synthesis  # Create synthesis note
+obsidian append file="Source Note" content="..."  # Add backlink to source notes
+```
+
 ## Steps
 
 1. **Identify the topic**:
    - Use the topic provided by the user
-   - Search the vault for related notes by title, tags, and content
+   - Search the vault for related notes:
+
+   ```bash
+   obsidian search query="productivity" format=json
+   obsidian tag name="productivity" verbose
+   ```
 
 2. **Present source notes**:
 
@@ -45,7 +61,13 @@ recommends_mcp: [sequential-thinking]
    Synthesize all, or select specific notes?
    ```
 
-3. **Read all selected source notes** carefully
+3. **Read all selected source notes** via CLI:
+
+   ```bash
+   obsidian read file="My Productivity Workflow"
+   obsidian read file="The Perfect Work Day"
+   # ... etc
+   ```
 
 4. **Synthesize** (using the Synthesizer agent):
    - Find themes that repeat across notes
@@ -61,21 +83,28 @@ recommends_mcp: [sequential-thinking]
 
 6. **Present the draft** for review
 
-7. **Save on confirmation**:
-   - Write the file to the appropriate folder (suggest `20_Ideas` or user-chosen)
-   - Optionally add a backlink to the synthesis from each source note
+7. **Save on confirmation** via CLI:
+   ```bash
+   obsidian create name="Synthesis: Productivity" template=synthesis content="..." open
+   ```
+
+   - Write to the appropriate folder (suggest `20_Ideas` or user-chosen)
+   - Optionally add a backlink to the synthesis from each source note:
+   ```bash
+   obsidian append file="My Productivity Workflow" content="\n\nSynthesized in [[Synthesis: Productivity]]"
+   ```
 
 ## Usage
 
 ```bash
 # Synthesize by topic
-/synthesize "productivity"
+/cx-synthesize "productivity"
 
 # Synthesize specific notes
-/synthesize "My Productivity Workflow" "The Perfect Work Day" "Deep Work Notes"
+/cx-synthesize "My Productivity Workflow" "The Perfect Work Day" "Deep Work Notes"
 
 # Synthesize by tag
-/synthesize #career
+/cx-synthesize #career
 ```
 
 ## Key Principles

@@ -11,7 +11,7 @@ recommends_mcp: []
 
 > **Skill Reference**:
 >
-> - [obsidian-conventions](../skills/obsidian-conventions/SKILL.md) — File naming, vault path
+> - [obsidian-conventions](../skills/obsidian-conventions/SKILL.md) — File naming, vault path, CLI commands
 
 ## When to Use
 
@@ -19,40 +19,65 @@ recommends_mcp: []
 - End of day to reflect
 - Any time to create a dated journal entry
 
+## CLI Commands Used
+
+```bash
+obsidian daily                           # Open/create today's daily note
+obsidian daily:path                      # Get expected daily note path
+obsidian daily:read                      # Read daily note contents
+obsidian daily:append content="..."      # Append content to daily note
+obsidian daily:prepend content="..."     # Prepend content to daily note
+obsidian recents                         # List recently opened files
+obsidian files folder=00_Inbox           # Check inbox for recent captures
+```
+
 ## Steps
 
 // turbo-all
 
-1. **Read vault config** from `../config.md`:
-   - Get the vault path and daily notes folder
+1. **Read vault config** from `../config.md`
 
-2. **Generate filename**: `YYYY-MM-DD.md` using today's date
+2. **Check if daily note exists** via CLI:
 
-3. **Check if daily note exists**:
+   ```bash
+   obsidian daily:path     # Get the expected path
+   obsidian daily:read     # Try to read — if it exists, show it
+   ```
+
    - If it exists: display the existing note content and offer to append
-   - If not: create a new one
+   - If not: proceed to create
 
-4. **Scan for recent activity**:
-   - Find notes created or modified in the last 24 hours
-   - Find notes currently in the inbox
+3. **Scan for recent activity** using CLI:
 
-5. **Create the note** using the `daily.md` template:
-   - Replace `{date}` with today's date (formatted: `March 6, 2026`)
-   - Replace `{recent_inbox_items}` with `[[wikilinks]]` to recent captures
-   - Leave `{reflection}` and `{focus_items}` as prompts for the user to fill in
+   ```bash
+   obsidian recents                    # Recently opened files
+   obsidian files folder=00_Inbox     # Current inbox items
+   ```
 
-6. **Write the file** to `{vault_path}/{daily_folder}/{filename}`
+4. **Create the daily note** via CLI:
 
-7. **Report**: `📅 Daily note created → {daily_folder}/YYYY-MM-DD.md`
+   ```bash
+   obsidian daily   # Creates and opens the daily note using Obsidian's daily note settings
+   ```
+
+   - If the template needs custom content (recent links, prompts), use:
+
+   ```bash
+   obsidian daily:append content="## Recent Captures\n- [[Note 1]]\n- [[Note 2]]"
+   ```
+
+   - Falls back to manual file creation using the `daily.md` template if Obsidian is not running
+
+5. **Report**: `📅 Daily note created → {daily_folder}/YYYY-MM-DD.md`
 
 ## Usage
 
 ```bash
 # Create today's daily note
-/daily
+/cx-daily
 
 # Create a daily note for a specific date
-/daily 2026-03-05
+/cx-daily 2026-03-05
 ```
 
 ## Key Principles

@@ -1,6 +1,8 @@
 # Cortex Catalog
 
 > Complete index of all workflows, agents, skills, and templates.
+>
+> **Requires**: Obsidian 1.12+ with [CLI enabled](https://help.obsidian.md/cli). All workflows use CLI commands to interact with the vault.
 
 ## Workflows
 
@@ -24,10 +26,10 @@
 
 ## Skills
 
-| Name                 | Path                                                          | Description                                   |
-| -------------------- | ------------------------------------------------------------- | --------------------------------------------- |
-| PKM Methodology      | [pkm-methodology/](skills/pkm-methodology/SKILL.md)           | Zettelkasten, Progressive Summarization, MOCs |
-| Obsidian Conventions | [obsidian-conventions/](skills/obsidian-conventions/SKILL.md) | Wikilinks, tags, file naming, vault rules     |
+| Name                 | Path                                                          | Description                                       |
+| -------------------- | ------------------------------------------------------------- | ------------------------------------------------- |
+| PKM Methodology      | [pkm-methodology/](skills/pkm-methodology/SKILL.md)           | Zettelkasten, Progressive Summarization, MOCs     |
+| Obsidian Conventions | [obsidian-conventions/](skills/obsidian-conventions/SKILL.md) | Wikilinks, tags, file naming, CLI commands (v2.0) |
 
 ## Templates
 

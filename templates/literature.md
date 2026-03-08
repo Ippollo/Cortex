@@ -1,20 +1,19 @@
-# {title}
+---
+date: { { date } }
+type: literature
+tags: []
+source:
+author:
+---
 
-**Source**: {source_url_or_title}
-**Author**: {author}
-**Date Read**: {date}
+# {{title}}
 
 ## Key Takeaways
 
-- {takeaway_1}
-- {takeaway_2}
+-
 
 ## My Thoughts
 
-{own_reflections}
-
 ## Related
 
-- {links}
-
-{tags}
+-
