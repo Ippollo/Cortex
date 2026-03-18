@@ -8,6 +8,8 @@ triggers:
   - zettelkasten
   - filing decisions
   - note types
+metadata:
+  pattern: tool-wrapper
 ---
 
 # PKM Methodology

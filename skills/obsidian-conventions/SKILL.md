@@ -10,6 +10,8 @@ triggers:
   - tag format
   - note format
   - file naming
+metadata:
+  pattern: tool-wrapper
 ---
 
 # Obsidian Conventions
