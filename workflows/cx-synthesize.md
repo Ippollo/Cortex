@@ -28,12 +28,12 @@ recommends_mcp: [sequential-thinking]
 ## CLI Commands Used
 
 ```bash
-obsidian search query="..." format=json          # Find related notes by topic
-obsidian tag name="tagname" verbose               # Find notes by tag
-obsidian read file="Note Title"                   # Read each source note
-obsidian backlinks file="Note Title" format=json  # Check connectivity
-obsidian create name="Synthesis: Topic" template=synthesis  # Create synthesis note
-obsidian append file="Source Note" content="..."  # Add backlink to source notes
+obsidian vault=Notepad search query="..." format=json          # Find related notes by topic
+obsidian vault=Notepad tag name="tagname" verbose               # Find notes by tag
+obsidian vault=Notepad read file="Note Title"                   # Read each source note
+obsidian vault=Notepad backlinks file="Note Title" format=json  # Check connectivity
+obsidian vault=Notepad create name="Synthesis: Topic" content="..."  # Create synthesis note
+obsidian vault=Notepad append file="Source Note" content="..."  # Add backlink to source notes
 ```
 
 ## Steps
@@ -43,8 +43,8 @@ obsidian append file="Source Note" content="..."  # Add backlink to source notes
    - Search the vault for related notes:
 
    ```bash
-   obsidian search query="productivity" format=json
-   obsidian tag name="productivity" verbose
+   obsidian vault=Notepad search query="productivity" format=json
+   obsidian vault=Notepad tag name="productivity" verbose
    ```
 
 2. **Present source notes**:
@@ -64,8 +64,8 @@ obsidian append file="Source Note" content="..."  # Add backlink to source notes
 3. **Read all selected source notes** via CLI:
 
    ```bash
-   obsidian read file="My Productivity Workflow"
-   obsidian read file="The Perfect Work Day"
+   obsidian vault=Notepad read file="My Productivity Workflow"
+   obsidian vault=Notepad read file="The Perfect Work Day"
    # ... etc
    ```
 
@@ -85,13 +85,13 @@ obsidian append file="Source Note" content="..."  # Add backlink to source notes
 
 7. **Save on confirmation** via CLI:
    ```bash
-   obsidian create name="Synthesis: Productivity" template=synthesis content="..." open
+   obsidian vault=Notepad create name="Synthesis: Productivity" content="---\ndate: YYYY-MM-DD\ntype: synthesis\ntags: [productivity]\n---\n\n# Synthesis: Productivity\n\n{insight}\n\n## Sources\n{source_links}\n\n## Open Questions\n{questions}" open
    ```
 
    - Write to the appropriate folder (suggest `20_Ideas` or user-chosen)
    - Optionally add a backlink to the synthesis from each source note:
    ```bash
-   obsidian append file="My Productivity Workflow" content="\n\nSynthesized in [[Synthesis: Productivity]]"
+   obsidian vault=Notepad append file="My Productivity Workflow" content="\n\nSynthesized in [[Synthesis: Productivity]]"
    ```
 
 ## Usage

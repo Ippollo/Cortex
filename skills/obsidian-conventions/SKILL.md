@@ -58,8 +58,9 @@ The Obsidian CLI (v1.12+) is the **preferred** way to interact with the vault fr
 
 - **File targeting**: Use `file=Title` (wikilink-style resolution) or `path=folder/file.md` (exact path)
 - **Output formats**: Most list commands support `format=json|tsv|csv` — prefer `format=json` for programmatic use
-- **Vault targeting**: Run CLI from within the vault directory, or use `vault=Notepad` as the first parameter
+- **Vault targeting**: Run CLI from within the vault directory, or use `vault=Notepad` as the first parameter. Prefer `vault=Notepad` for reliability since Antigravity's CWD may vary
 - **Multiline content**: Use `\n` for newlines in `content=` parameters
+- **Templates**: The `template=` parameter requires the Templates core plugin to be enabled with a configured template folder in Obsidian settings. If not configured, build note content in the `content=` parameter directly instead
 
 ## Wikilinks
 
@@ -169,7 +170,7 @@ tags: []
 ### Current Vault Layout
 
 ```
-C:\Projects\Notepad\
+C:\Workspace\Notepad\
 ├── 00_Inbox/            # Capture zone — unprocessed notes
 ├── 10_Reflection/       # Personal reflections, journals
 ├── 20_Ideas/            # Ideas, concepts, project seeds

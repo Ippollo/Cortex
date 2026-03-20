@@ -23,9 +23,9 @@ recommends_mcp: []
 ## CLI Commands Used
 
 ```bash
-obsidian create name="YYYY-MM-DD Title" content="..." template=fleeting open
-obsidian files folder=00_Inbox          # Check for filename collisions
-obsidian vault info=path                # Get vault path if needed
+obsidian vault=Notepad create path="00_Inbox/YYYY-MM-DD Title.md" content="..."
+obsidian vault=Notepad files folder=00_Inbox          # Check for filename collisions
+obsidian vault=Notepad vault info=path                 # Get vault path if needed
 ```
 
 ## Steps
@@ -41,16 +41,22 @@ obsidian vault info=path                # Get vault path if needed
    - Generate a title: use the first sentence or a slugified summary if no clear title
    - Generate a filename: `YYYY-MM-DD {title}.md`
 
-3. **Create the note** via Obsidian CLI:
+3. **Check for source link**:
+   - If the capture references external content (a post, article, video, tweet, etc.) and no URL was provided, **ask the user for the link before creating the note**
+   - This is the one exception to the "no questions asked" principle — sources need URLs
+
+4. **Create the note** via Obsidian CLI:
+
+   Build the frontmatter and content inline (the Templates plugin may not be configured):
 
    ```bash
-   obsidian create path="00_Inbox/YYYY-MM-DD {title}.md" content="{content}" template=fleeting
+   obsidian vault=Notepad create path="00_Inbox/YYYY-MM-DD {title}.md" content="---\ndate: YYYY-MM-DD\ntype: fleeting\ntags: [{extracted_tags}]\n---\n\n# {title}\n\n{content}"
    ```
 
    - The CLI will error if the file already exists — if so, append a numeric suffix and retry
    - Falls back to `write_to_file` if Obsidian is not running
 
-4. **Confirm**:
+5. **Confirm**:
    - Report: `✅ Captured → {inbox_folder}/{filename}`
    - Suggest: "Run `/cx-inbox` later to process and file this note."
 
@@ -70,7 +76,7 @@ obsidian vault info=path                # Get vault path if needed
 ## Key Principles
 
 - **Speed over perfection** — the note doesn't need to be clean, just captured
-- **No questions asked** — don't prompt the user for tags, folders, or metadata unless they explicitly asked for help
+- **No questions asked** — don't prompt the user for tags, folders, or metadata unless they explicitly asked for help. The one exception: if the capture references external content, always ask for the source URL.
 - **Inbox is temporary** — everything captured here will be processed by `/cx-inbox` later
 
 ## Next Steps

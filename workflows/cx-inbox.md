@@ -27,16 +27,16 @@ recommends_mcp: [sequential-thinking]
 ## CLI Commands Used
 
 ```bash
-obsidian files folder=00_Inbox           # List inbox contents
-obsidian read file="Note Title"          # Read a note's content
-obsidian file file="Note Title"          # Get file metadata
-obsidian move file="Note Title" to="20_Ideas"  # Move note to folder (auto-updates links)
-obsidian delete file="Note Title"        # Delete a note (sends to trash)
-obsidian append file="Note Title" content="..."  # Add content to a note
-obsidian backlinks file="Note Title"     # Check what links to this note
-obsidian links file="Note Title"         # Check outgoing links
-obsidian search query="..." format=json  # Find related notes
-obsidian tags file="Note Title"          # Get tags for a note
+obsidian vault=Notepad files folder=00_Inbox           # List inbox contents
+obsidian vault=Notepad read file="Note Title"          # Read a note's content
+obsidian vault=Notepad file file="Note Title"          # Get file metadata
+obsidian vault=Notepad move file="Note Title" to="20_Ideas"  # Move note to folder (auto-updates links)
+obsidian vault=Notepad delete file="Note Title"        # Delete a note (sends to trash)
+obsidian vault=Notepad append file="Note Title" content="..."  # Add content to a note
+obsidian vault=Notepad backlinks file="Note Title"     # Check what links to this note
+obsidian vault=Notepad links file="Note Title"         # Check outgoing links
+obsidian vault=Notepad search query="..." format=json  # Find related notes
+obsidian vault=Notepad tags file="Note Title"          # Get tags for a note
 ```
 
 ## Steps
@@ -46,7 +46,7 @@ obsidian tags file="Note Title"          # Get tags for a note
 2. **List inbox contents** via CLI:
 
    ```bash
-   obsidian files folder=00_Inbox
+   obsidian vault=Notepad files folder=00_Inbox
    ```
 
    - Report count: "📥 **{N} notes** in inbox"
@@ -57,16 +57,16 @@ obsidian tags file="Note Title"          # Get tags for a note
    a. **Display the note** using CLI:
 
    ```bash
-   obsidian read file="Note Title"
-   obsidian tags file="Note Title"
-   obsidian links file="Note Title"
+   obsidian vault=Notepad read file="Note Title"
+   obsidian vault=Notepad tags file="Note Title"
+   obsidian vault=Notepad links file="Note Title"
    ```
 
    - Show the filename, full content, tags, and existing links
 
    b. **Analyze and suggest** (using the Librarian agent):
    - Suggest a **target folder** with reasoning (e.g., "This reads like a personal reflection → `10_Reflection`")
-   - Use `obsidian search` to find **related notes** that could be linked
+   - Use `obsidian vault=Notepad search` to find **related notes** that could be linked
    - Assess note quality (atomic? clear title? own words?)
 
    c. **Present actions**:
@@ -77,10 +77,10 @@ obsidian tags file="Note Title"          # Get tags for a note
    - **⏭️ Skip** — Leave in inbox for now, move to next note
 
    d. **Execute the chosen action**:
-   - For **File**: `obsidian move file="Note Title" to="20_Ideas"` — auto-updates links. If note quality is low, offer to upgrade the template from `fleeting` to `permanent`.
-   - For **Expand**: Ask guided questions ("What made you think of this?", "How does this connect to what you're working on?", "Is there an action item here?"). Use `obsidian append` to update the note content. Then proceed to File.
-   - For **Connect**: Run a mini-version of `/cx-connect` on this note. Use `obsidian append` to add approved `[[wikilinks]]`. Then proceed to File.
-   - For **Discard**: Confirm with user. `obsidian delete file="Note Title"`.
+   - For **File**: `obsidian vault=Notepad move file="Note Title" to="20_Ideas"` — auto-updates links. If note quality is low, offer to upgrade the template from `fleeting` to `permanent`.
+   - For **Expand**: Ask guided questions ("What made you think of this?", "How does this connect to what you're working on?", "Is there an action item here?"). Use `obsidian vault=Notepad append` to update the note content. Then proceed to File.
+   - For **Connect**: Run a mini-version of `/cx-connect` on this note. Use `obsidian vault=Notepad append` to add approved `[[wikilinks]]`. Then proceed to File.
+   - For **Discard**: Confirm with user. `obsidian vault=Notepad delete file="Note Title"`.
    - For **Skip**: Move to the next note.
 
    e. **Confirm**: Report what was done (e.g., "📁 Filed `My thought.md` → `20_Ideas`")

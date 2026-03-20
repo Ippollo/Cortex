@@ -23,15 +23,15 @@ recommends_mcp: []
 ## CLI Commands Used
 
 ```bash
-obsidian files folder="20_Ideas"                # List files in a folder
-obsidian file file="Note Title"                 # Get metadata (created, modified, size)
-obsidian backlinks file="Note Title" total      # Count incoming links
-obsidian links file="Note Title" total          # Count outgoing links
-obsidian orphans                                # Notes with zero incoming links
-obsidian deadends                               # Notes with zero outgoing links
-obsidian read file="Note Title"                 # Read note content
-obsidian tags file="Note Title"                 # Get note tags
-obsidian append file="Note Title" content="..." # Add review notes
+obsidian vault=Notepad files folder="20_Ideas"                # List files in a folder
+obsidian vault=Notepad file file="Note Title"                 # Get metadata (created, modified, size)
+obsidian vault=Notepad backlinks file="Note Title" total      # Count incoming links
+obsidian vault=Notepad links file="Note Title" total          # Count outgoing links
+obsidian vault=Notepad orphans                                # Notes with zero incoming links
+obsidian vault=Notepad deadends                               # Notes with zero outgoing links
+obsidian vault=Notepad read file="Note Title"                 # Read note content
+obsidian vault=Notepad tags file="Note Title"                 # Get note tags
+obsidian vault=Notepad append file="Note Title" content="..." # Add review notes
 ```
 
 ## Steps
@@ -41,16 +41,16 @@ obsidian append file="Note Title" content="..." # Add review notes
 2. **Scan the vault** via CLI (excluding `00_Inbox` and `99_System`):
 
    ```bash
-   obsidian files ext=md                    # List all markdown files
-   obsidian file file="Note Title"          # Get modified date per note
-   obsidian backlinks file="Note Title" total  # Get link count per note
+   obsidian vault=Notepad files ext=md                    # List all markdown files
+   obsidian vault=Notepad file file="Note Title"          # Get modified date per note
+   obsidian vault=Notepad backlinks file="Note Title" total  # Get link count per note
    ```
 
    - Also check for orphans and dead-ends as priority candidates:
 
    ```bash
-   obsidian orphans    # High-priority: unlinked, forgotten notes
-   obsidian deadends   # Notes that don't link out — potential to connect
+   obsidian vault=Notepad orphans    # High-priority: unlinked, forgotten notes
+   obsidian vault=Notepad deadends   # Notes that don't link out — potential to connect
    ```
 
 3. **Score and rank notes** for review priority:

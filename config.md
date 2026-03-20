@@ -1,6 +1,6 @@
 # Cortex Configuration
 
-- **Vault Path**: C:\Projects\Notepad
+- **Vault Path**: C:\Workspace\Notepad
 - **Vault Name**: Notepad
 - **Inbox Folder**: 00_Inbox
 - **Daily Notes Folder**: 10_Reflection
