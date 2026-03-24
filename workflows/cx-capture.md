@@ -32,6 +32,11 @@ obsidian vault=Notepad vault info=path                 # Get vault path if neede
 
 // turbo-all
 
+0. **Pre-flight: check for hung CLI processes**:
+   - Check whether any previous `obsidian` CLI command is still running in the background
+   - If a hung process is detected, terminate it before proceeding — a stuck process will block all subsequent CLI calls
+   - This is the most common cause of CLI hangs; it is not a vault targeting issue
+
 1. **Read vault config** from `../config.md`:
    - Get the vault path and inbox folder name
 
@@ -54,7 +59,7 @@ obsidian vault=Notepad vault info=path                 # Get vault path if neede
    ```
 
    - The CLI will error if the file already exists — if so, append a numeric suffix and retry
-   - Falls back to `write_to_file` if Obsidian is not running
+   - Falls back to `write_to_file` if Obsidian is not running or if the CLI hangs after the pre-flight check
 
 5. **Confirm**:
    - Report: `✅ Captured → {inbox_folder}/{filename}`
