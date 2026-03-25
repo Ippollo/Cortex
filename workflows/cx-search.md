@@ -70,16 +70,16 @@ obsidian vault=Notepad read file="Note Title"                  # Read a selected
    🔍 Search: "productivity"
 
    📌 Exact matches:
-   1. My Productivity Workflow.md (10_Reflection) — "A system for managing daily tasks..."
-   2. Productivity Tools.md (40_Reference) — "Comparison of todo apps and..."
+   1. My Productivity Workflow.md (20_Journal) — "A system for managing daily tasks..."
+   2. Productivity Tools.md (40_Knowledge) — "Comparison of todo apps and..."
 
    🏷️ Tag matches:
-   3. Habit Formation.md (20_Ideas) — #productivity #habits
-   4. Deep Work Notes.md (40_Reference) — #productivity #focus
+   3. Habit Formation.md (30_Ideas) — #productivity #habits
+   4. Deep Work Notes.md (40_Knowledge) — #productivity #focus
 
    🤖 AI-suggested:
    5. Building Agentic apps.md (00_Inbox) — discusses workflow optimization
-   6. The Perfect Work Day.md (10_Reflection) — time management framework
+   6. The Perfect Work Day.md (20_Journal) — time management framework
 
    View a note? (enter number)
    ```

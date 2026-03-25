@@ -23,7 +23,7 @@ recommends_mcp: []
 ## CLI Commands Used
 
 ```bash
-obsidian vault=Notepad files folder="20_Ideas"                # List files in a folder
+obsidian vault=Notepad files folder="30_Ideas"                # List files in a folder
 obsidian vault=Notepad file file="Note Title"                 # Get metadata (created, modified, size)
 obsidian vault=Notepad backlinks file="Note Title" total      # Count incoming links
 obsidian vault=Notepad links file="Note Title" total          # Count outgoing links
@@ -65,10 +65,10 @@ obsidian vault=Notepad append file="Note Title" content="..." # Add review notes
    ```
    📖 Review session — 4 notes to revisit:
 
-   1. "The Value of Constraints" (20_Ideas) — last modified 45 days ago, 3 links
-   2. "Conversation with Marco" (30_People) — last modified 60 days ago, 0 links ⚠️ orphan
-   3. "Event Sourcing for Audit Trails" (40_Reference) — last modified 30 days ago, 1 link
-   4. "Why I Build in Public" (10_Reflection) — last modified 90 days ago, 2 links
+   1. "The Value of Constraints" (30_Ideas) — last modified 45 days ago, 3 links
+   2. "Conversation with Marco" (20_Journal) — last modified 60 days ago, 0 links ⚠️ orphan
+   3. "Event Sourcing for Audit Trails" (40_Knowledge) — last modified 30 days ago, 1 link
+   4. "Why I Build in Public" (20_Journal) — last modified 90 days ago, 2 links
 
    Start with #1?
    ```
@@ -90,7 +90,7 @@ obsidian vault=Notepad append file="Note Title" content="..." # Add review notes
 /cx-review
 
 # Review notes from a specific folder
-/cx-review --folder "20_Ideas"
+/cx-review --folder "30_Ideas"
 
 # Review notes with a specific tag
 /cx-review #productivity

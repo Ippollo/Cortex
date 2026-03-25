@@ -65,7 +65,12 @@ obsidian vault=Notepad tags file="Note Title"          # Get tags for a note
    - Show the filename, full content, tags, and existing links
 
    b. **Analyze and suggest** (using the Librarian agent):
-   - Suggest a **target folder** with reasoning (e.g., "This reads like a personal reflection → `10_Reflection`")
+   - **Check for actionability first**: Does this note describe something the user needs to *do*? Look for signals:
+     - Action verbs ("research", "build", "fix", "update", "set up")
+     - Tags like `action-item`
+     - Phrases like "I should", "I need to", "to-do"
+   - If actionable → suggest `10_Projects` and offer to convert frontmatter to `type: action` with `status: todo`
+   - If not actionable → suggest a target folder with reasoning (e.g., "This reads like a personal reflection → `20_Journal`")
    - Use `obsidian vault=Notepad search` to find **related notes** that could be linked
    - Assess note quality (atomic? clear title? own words?)
 
@@ -77,13 +82,14 @@ obsidian vault=Notepad tags file="Note Title"          # Get tags for a note
    - **⏭️ Skip** — Leave in inbox for now, move to next note
 
    d. **Execute the chosen action**:
-   - For **File**: `obsidian vault=Notepad move file="Note Title" to="20_Ideas"` — auto-updates links. If note quality is low, offer to upgrade the template from `fleeting` to `permanent`.
+   - For **File to `10_Projects`**: Update frontmatter (`type: action`, add `status: todo`, optionally add `priority`, `project`, `section`, `due`), then move: `obsidian vault=Notepad move file="Note Title" to="10_Projects"`.
+   - For **File** (non-action): `obsidian vault=Notepad move file="Note Title" to="30_Ideas"` — auto-updates links. If note quality is low, offer to upgrade the template from `fleeting` to `permanent`.
    - For **Expand**: Ask guided questions ("What made you think of this?", "How does this connect to what you're working on?", "Is there an action item here?"). Use `obsidian vault=Notepad append` to update the note content. Then proceed to File.
    - For **Connect**: Run a mini-version of `/cx-connect` on this note. Use `obsidian vault=Notepad append` to add approved `[[wikilinks]]`. Then proceed to File.
    - For **Discard**: Confirm with user. `obsidian vault=Notepad delete file="Note Title"`.
    - For **Skip**: Move to the next note.
 
-   e. **Confirm**: Report what was done (e.g., "📁 Filed `My thought.md` → `20_Ideas`")
+   e. **Confirm**: Report what was done (e.g., "📁 Filed `My thought.md` → `30_Ideas`" or "✅ Task `Fix the bug.md` → `10_Projects` [status: todo]")
 
 4. **Summary**: After processing all notes (or user stops):
    - Report how many notes were filed, expanded, connected, discarded, skipped

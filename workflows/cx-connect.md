@@ -91,7 +91,7 @@ obsidian vault=Notepad append file="Note Title" content="..."    # Add approved 
 /cx-connect latest
 
 # Connect all notes in a folder
-/cx-connect --folder "20_Ideas"
+/cx-connect --folder "30_Ideas"
 ```
 
 ## Key Principles

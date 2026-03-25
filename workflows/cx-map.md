@@ -84,7 +84,7 @@ obsidian vault=Notepad append file="MOC - Topic" content="..."  # Update existin
    obsidian vault=Notepad create name="MOC - Productivity" content="---\ndate: YYYY-MM-DD\ntype: moc\ntags: [productivity]\n---\n\n# MOC - Productivity\n\n{grouped_links}" open
    ```
 
-   - Save to the user's chosen folder (suggest `40_Reference` or root)
+   - Save to the user's chosen folder (suggest `40_Knowledge` or root)
    - Falls back to `write_to_file` if Obsidian is not running
 
 5. **Handle existing MOCs**:

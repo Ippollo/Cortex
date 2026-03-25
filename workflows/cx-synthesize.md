@@ -52,11 +52,11 @@ obsidian vault=Notepad append file="Source Note" content="..."  # Add backlink t
    ```
    📚 Found 5 notes related to "productivity":
 
-   1. My Productivity Workflow.md (10_Reflection)
-   2. The Perfect Work Day.md (10_Reflection)
+   1. My Productivity Workflow.md (20_Journal)
+   2. The Perfect Work Day.md (20_Journal)
    3. Building Agentic apps.md (00_Inbox)
-   4. Habit Formation.md (20_Ideas)
-   5. Deep Work Notes.md (40_Reference)
+   4. Habit Formation.md (30_Ideas)
+   5. Deep Work Notes.md (40_Knowledge)
 
    Synthesize all, or select specific notes?
    ```
@@ -88,7 +88,7 @@ obsidian vault=Notepad append file="Source Note" content="..."  # Add backlink t
    obsidian vault=Notepad create name="Synthesis: Productivity" content="---\ndate: YYYY-MM-DD\ntype: synthesis\ntags: [productivity]\n---\n\n# Synthesis: Productivity\n\n{insight}\n\n## Sources\n{source_links}\n\n## Open Questions\n{questions}" open
    ```
 
-   - Write to the appropriate folder (suggest `20_Ideas` or user-chosen)
+   - Write to the appropriate folder (suggest `30_Ideas` or user-chosen)
    - Optionally add a backlink to the synthesis from each source note:
    ```bash
    obsidian vault=Notepad append file="My Productivity Workflow" content="\n\nSynthesized in [[Synthesis: Productivity]]"

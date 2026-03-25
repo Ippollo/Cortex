@@ -1,7 +1,7 @@
 ---
 name: Obsidian Conventions
 description: Obsidian vault file format, wikilink syntax, tag conventions, CLI commands, and compatibility rules. Loaded when agents create or modify files in the vault.
-version: 2.0.0
+version: 3.0.0
 triggers:
   - obsidian
   - obsidian cli
@@ -31,7 +31,7 @@ The Obsidian CLI (v1.12+) is the **preferred** way to interact with the vault fr
 | Create a note       | `obsidian create name="Title" content="..." template=fleeting` | `write_to_file`                 |
 | Read a note         | `obsidian read file="Title"`                                   | `view_file`                     |
 | Append to a note    | `obsidian append file="Title" content="..."`                   | Manual read + rewrite           |
-| Move a note         | `obsidian move file="Title" to="20_Ideas"`                     | Read/write/delete + link scan   |
+| Move a note         | `obsidian move file="Title" to="30_Ideas"`                     | Read/write/delete + link scan   |
 | Rename a note       | `obsidian rename file="Title" name="New Title"`                | Manual + link updates           |
 | Delete a note       | `obsidian delete file="Title"`                                 | Manual delete                   |
 | Search vault        | `obsidian search query="..." format=json`                      | `grep_search`                   |
@@ -76,7 +76,7 @@ The Obsidian CLI (v1.12+) is the **preferred** way to interact with the vault fr
 ### Resolution Rules
 
 - Obsidian resolves wikilinks by **filename only** (not path)
-- `[[My Note]]` matches `00_Inbox/My Note.md` or `20_Ideas/My Note.md`
+- `[[My Note]]` matches `00_Inbox/My Note.md` or `30_Ideas/My Note.md`
 - If there are duplicate filenames, Obsidian uses the shortest path. Cortex should use full relative paths to avoid ambiguity: `[[subfolder/My Note]]`
 - Links are **case-insensitive** in Obsidian but preserve the case you type
 - **CLI equivalent**: `obsidian backlinks file="My Note"` returns all notes linking to it; `obsidian links file="My Note"` returns all outgoing links
@@ -148,7 +148,7 @@ All notes MUST have YAML frontmatter with at minimum:
 ```yaml
 ---
 date: YYYY-MM-DD
-type: fleeting | permanent | reflection | reference | moc | daily | synthesis | literature
+type: fleeting | permanent | reflection | reference | moc | daily | synthesis | literature | action
 tags: []
 ---
 ```
@@ -157,6 +157,29 @@ tags: []
 - `type`: The note's category — determines which template was used
 - `tags`: Array of tags from the standardized vocabulary (see Tags section)
 - Additional fields may be added per template (e.g., `source:` and `author:` for literature notes)
+
+### Action-Specific Fields
+
+Notes with `type: action` support these optional fields:
+
+```yaml
+---
+date: 2026-03-25
+type: action
+tags: [career, content]
+status: todo              # todo | in-progress | done | parked
+priority: p2              # p1 (urgent) | p2 (normal) | p3 (low)
+due: 2026-03-30           # optional — date-sensitive items only
+project: hq               # optional (hq, heredara, reminders)
+section: content           # optional (general, content, specwright, cortex, bugs, add-change, future, test)
+---
+```
+
+- `status`: Task lifecycle state
+- `priority`: Urgency level
+- `due`: Target completion date (not a reminder — no push notifications)
+- `project`: Maps to a Todoist-equivalent project grouping
+- `section`: Sub-grouping within a project
 
 ### Frontmatter Rules
 
@@ -172,10 +195,11 @@ tags: []
 ```
 C:\Workspace\Notepad\
 ├── 00_Inbox/            # Capture zone — unprocessed notes
-├── 10_Reflection/       # Personal reflections, journals
-├── 20_Ideas/            # Ideas, concepts, project seeds
-├── 30_People/           # Notes about specific people
-├── 40_Reference/        # Reference material, how-tos
+├── 10_Projects/         # Actionable work (tasks, reminders, project items)
+├── 20_Journal/          # Personal reflections, journals, values, people notes
+├── 30_Ideas/            # Ideas, concepts, project seeds, explorations
+├── 40_Knowledge/        # Reference material, business frameworks, career data
+├── 70_Finance/          # Financial data (accounts, imports, monthly)
 ├── 99_System/           # System infrastructure (not regular notes)
 │   ├── Archive/         # Archived raw material, old research
 │   ├── Attachments/     # Images, files, media
@@ -189,8 +213,9 @@ C:\Workspace\Notepad\
 - **NEVER** modify anything in `.obsidian/`
 - **NEVER** modify `.stfolder` or `.stignore`
 - Numbered prefixes (`00_`, `10_`, etc.) control sort order
-- Cortex may suggest new folders (e.g., `50_Projects/`) but must get user confirmation
+- New folders require user confirmation
 - When moving notes, use `obsidian move` which auto-updates internal links
+- Prefer flat folders with tags for sub-categorization over deep subfolder trees
 
 ## Moving Files
 
@@ -198,7 +223,7 @@ C:\Workspace\Notepad\
 
 ```bash
 # Move a note to a new folder (auto-updates links)
-obsidian move file="My Note" to="20_Ideas"
+obsidian move file="My Note" to="30_Ideas"
 
 # Rename a note (auto-updates links)
 obsidian rename file="Old Title" name="New Title"

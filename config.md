@@ -3,7 +3,7 @@
 - **Vault Path**: C:\Workspace\Notepad
 - **Vault Name**: Notepad
 - **Inbox Folder**: 00_Inbox
-- **Daily Notes Folder**: 10_Reflection
+- **Daily Notes Folder**: 20_Journal
 - **Default Tags**: (none)
 
 ## Obsidian CLI

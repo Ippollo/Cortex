@@ -88,13 +88,13 @@ When reviewing notes, apply progressive distillation:
 
 When deciding where to file a note, use these guidelines:
 
-| Content Type                       | Suggested Folder | Reasoning        |
-| ---------------------------------- | ---------------- | ---------------- |
-| Raw capture, unsorted thought      | `00_Inbox`       | Needs processing |
-| Personal reflection, journal entry | `10_Reflection`  | Self-oriented    |
-| Business idea, project concept     | `20_Ideas`       | Forward-looking  |
-| Notes about a specific person      | `30_People`      | Person-focused   |
-| Reference material, how-tos        | `40_Reference`   | Backward-looking |
+| Content Type                       | Suggested Folder | Reasoning         |
+| ---------------------------------- | ---------------- | ----------------- |
+| Raw capture, unsorted thought      | `00_Inbox`       | Needs processing  |
+| Actionable task, to-do, reminder   | `10_Projects`    | Work to be done   |
+| Personal reflection, journal entry | `20_Journal`     | Self-oriented     |
+| Business idea, project concept     | `30_Ideas`       | Forward-looking   |
+| Reference material, how-tos        | `40_Knowledge`   | Backward-looking  |
 
 **Important**: These are defaults based on the current vault. The user may have custom folders. Always present the suggestion and let the user confirm or redirect.
 
