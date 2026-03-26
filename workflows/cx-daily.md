@@ -22,13 +22,13 @@ recommends_mcp: []
 ## CLI Commands Used
 
 ```bash
-obsidian vault=Notepad daily                           # Open/create today's daily note
-obsidian vault=Notepad daily:path                      # Get expected daily note path
-obsidian vault=Notepad daily:read                      # Read daily note contents
-obsidian vault=Notepad daily:append content="..."      # Append content to daily note
-obsidian vault=Notepad daily:prepend content="..."     # Prepend content to daily note
-obsidian vault=Notepad recents                         # List recently opened files
-obsidian vault=Notepad files folder=00_Inbox           # Check inbox for recent captures
+obsidian vault=KB daily                           # Open/create today's daily note
+obsidian vault=KB daily:path                      # Get expected daily note path
+obsidian vault=KB daily:read                      # Read daily note contents
+obsidian vault=KB daily:append content="..."      # Append content to daily note
+obsidian vault=KB daily:prepend content="..."     # Prepend content to daily note
+obsidian vault=KB recents                         # List recently opened files
+obsidian vault=KB files folder=00_Inbox           # Check inbox for recent captures
 ```
 
 ## Steps
@@ -40,8 +40,8 @@ obsidian vault=Notepad files folder=00_Inbox           # Check inbox for recent 
 2. **Check if daily note exists** via CLI:
 
    ```bash
-   obsidian vault=Notepad daily:path     # Get the expected path
-   obsidian vault=Notepad daily:read     # Try to read — if it exists, show it
+   obsidian vault=KB daily:path     # Get the expected path
+   obsidian vault=KB daily:read     # Try to read — if it exists, show it
    ```
 
    - If it exists: display the existing note content and offer to append
@@ -50,20 +50,20 @@ obsidian vault=Notepad files folder=00_Inbox           # Check inbox for recent 
 3. **Scan for recent activity** using CLI:
 
    ```bash
-   obsidian vault=Notepad recents                    # Recently opened files
-   obsidian vault=Notepad files folder=00_Inbox     # Current inbox items
+   obsidian vault=KB recents                    # Recently opened files
+   obsidian vault=KB files folder=00_Inbox     # Current inbox items
    ```
 
 4. **Create the daily note** via CLI:
 
    ```bash
-   obsidian vault=Notepad daily   # Creates and opens the daily note using Obsidian's daily note settings
+   obsidian vault=KB daily   # Creates and opens the daily note using Obsidian's daily note settings
    ```
 
    - If the template needs custom content (recent links, prompts), use:
 
    ```bash
-   obsidian vault=Notepad daily:append content="## Recent Captures\n- [[Note 1]]\n- [[Note 2]]"
+   obsidian vault=KB daily:append content="## Recent Captures\n- [[Note 1]]\n- [[Note 2]]"
    ```
 
    - Falls back to manual file creation using the `daily.md` template if Obsidian is not running

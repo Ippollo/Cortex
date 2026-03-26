@@ -23,13 +23,13 @@ recommends_mcp: []
 ## CLI Commands Used
 
 ```bash
-obsidian vault=Notepad search query="..." format=json         # Keyword search across vault
-obsidian vault=Notepad search:context query="..." format=json # Search with matching line context
-obsidian vault=Notepad search query="..." path="folder"       # Search within a folder
-obsidian vault=Notepad search query="..." total               # Get match count
-obsidian vault=Notepad tag name="tagname" verbose              # Find notes with a specific tag
-obsidian vault=Notepad tags counts sort=count                  # List all tags by frequency
-obsidian vault=Notepad read file="Note Title"                  # Read a selected result
+obsidian vault=KB search query="..." format=json         # Keyword search across vault
+obsidian vault=KB search:context query="..." format=json # Search with matching line context
+obsidian vault=KB search query="..." path="folder"       # Search within a folder
+obsidian vault=KB search query="..." total               # Get match count
+obsidian vault=KB tag name="tagname" verbose              # Find notes with a specific tag
+obsidian vault=KB tags counts sort=count                  # List all tags by frequency
+obsidian vault=KB read file="Note Title"                  # Read a selected result
 ```
 
 ## Steps
@@ -43,7 +43,7 @@ obsidian vault=Notepad read file="Note Title"                  # Read a selected
    a. **Full-text search** with context:
 
    ```bash
-   obsidian vault=Notepad search:context query="productivity" format=json
+   obsidian vault=KB search:context query="productivity" format=json
    ```
 
    Returns grep-style `path:line: text` output for all matches.
@@ -51,7 +51,7 @@ obsidian vault=Notepad read file="Note Title"                  # Read a selected
    b. **Tag match**:
 
    ```bash
-   obsidian vault=Notepad tag name="productivity" verbose
+   obsidian vault=KB tag name="productivity" verbose
    ```
 
    Returns all files tagged with `#productivity`.
@@ -86,7 +86,7 @@ obsidian vault=Notepad read file="Note Title"                  # Read a selected
 
 6. **On selection**: Read and display the full note:
    ```bash
-   obsidian vault=Notepad read file="My Productivity Workflow"
+   obsidian vault=KB read file="My Productivity Workflow"
    ```
 
 ## Usage

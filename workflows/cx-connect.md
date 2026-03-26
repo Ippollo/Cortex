@@ -28,14 +28,14 @@ recommends_mcp: [sequential-thinking]
 ## CLI Commands Used
 
 ```bash
-obsidian vault=Notepad read file="Note Title"                    # Read the target note
-obsidian vault=Notepad backlinks file="Note Title" format=json   # Find what links to it
-obsidian vault=Notepad links file="Note Title"                   # Find its outgoing links
-obsidian vault=Notepad tags file="Note Title"                    # Get its tags
-obsidian vault=Notepad search query="..." format=json            # Find content-similar notes
-obsidian vault=Notepad tag name="tagname" verbose                # Find notes sharing a tag
-obsidian vault=Notepad orphans                                   # Find unconnected notes
-obsidian vault=Notepad append file="Note Title" content="..."    # Add approved links
+obsidian vault=KB read file="Note Title"                    # Read the target note
+obsidian vault=KB backlinks file="Note Title" format=json   # Find what links to it
+obsidian vault=KB links file="Note Title"                   # Find its outgoing links
+obsidian vault=KB tags file="Note Title"                    # Get its tags
+obsidian vault=KB search query="..." format=json            # Find content-similar notes
+obsidian vault=KB tag name="tagname" verbose                # Find notes sharing a tag
+obsidian vault=KB orphans                                   # Find unconnected notes
+obsidian vault=KB append file="Note Title" content="..."    # Add approved links
 ```
 
 ## Steps
@@ -47,15 +47,15 @@ obsidian vault=Notepad append file="Note Title" content="..."    # Add approved 
 2. **Read the target note** via CLI:
 
    ```bash
-   obsidian vault=Notepad read file="Note Title"
+   obsidian vault=KB read file="Note Title"
    ```
 
 3. **Scan the vault** for related notes using CLI:
    - **Existing links**: `obsidian links file="Note Title"` — check what it already links to (avoid re-suggesting)
    - **Backlinks**: `obsidian backlinks file="Note Title"` — see what already links to it
    - **Tag overlap**: `obsidian tags file="Note Title"` → then `obsidian tag name="tagname" verbose` for each tag
-   - **Content similarity**: `obsidian vault=Notepad search query="key concepts from note" format=json` + AI semantic matching
-   - **Title matching**: `obsidian vault=Notepad search query="title keywords"` to find related titles
+   - **Content similarity**: `obsidian vault=KB search query="key concepts from note" format=json` + AI semantic matching
+   - **Title matching**: `obsidian vault=KB search query="title keywords"` to find related titles
 
 4. **Present suggestions** (ranked by relevance):
 
@@ -72,7 +72,7 @@ obsidian vault=Notepad append file="Note Title" content="..."    # Add approved 
 5. **Add approved links** via CLI:
 
    ```bash
-   obsidian vault=Notepad append file="Note Title" content="\n## Related\n- [[Building Agentic apps]]\n- [[The Perfect Work Day]]"
+   obsidian vault=KB append file="Note Title" content="\n## Related\n- [[Building Agentic apps]]\n- [[The Perfect Work Day]]"
    ```
 
    - Append a `## Related` section to the note (if it doesn't have one)

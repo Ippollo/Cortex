@@ -27,16 +27,16 @@ recommends_mcp: [sequential-thinking]
 ## CLI Commands Used
 
 ```bash
-obsidian vault=Notepad files folder=00_Inbox           # List inbox contents
-obsidian vault=Notepad read file="Note Title"          # Read a note's content
-obsidian vault=Notepad file file="Note Title"          # Get file metadata
-obsidian vault=Notepad move file="Note Title" to="20_Ideas"  # Move note to folder (auto-updates links)
-obsidian vault=Notepad delete file="Note Title"        # Delete a note (sends to trash)
-obsidian vault=Notepad append file="Note Title" content="..."  # Add content to a note
-obsidian vault=Notepad backlinks file="Note Title"     # Check what links to this note
-obsidian vault=Notepad links file="Note Title"         # Check outgoing links
-obsidian vault=Notepad search query="..." format=json  # Find related notes
-obsidian vault=Notepad tags file="Note Title"          # Get tags for a note
+obsidian vault=KB files folder=00_Inbox           # List inbox contents
+obsidian vault=KB read file="Note Title"          # Read a note's content
+obsidian vault=KB file file="Note Title"          # Get file metadata
+obsidian vault=KB move file="Note Title" to="20_Ideas"  # Move note to folder (auto-updates links)
+obsidian vault=KB delete file="Note Title"        # Delete a note (sends to trash)
+obsidian vault=KB append file="Note Title" content="..."  # Add content to a note
+obsidian vault=KB backlinks file="Note Title"     # Check what links to this note
+obsidian vault=KB links file="Note Title"         # Check outgoing links
+obsidian vault=KB search query="..." format=json  # Find related notes
+obsidian vault=KB tags file="Note Title"          # Get tags for a note
 ```
 
 ## Steps
@@ -46,7 +46,7 @@ obsidian vault=Notepad tags file="Note Title"          # Get tags for a note
 2. **List inbox contents** via CLI:
 
    ```bash
-   obsidian vault=Notepad files folder=00_Inbox
+   obsidian vault=KB files folder=00_Inbox
    ```
 
    - Report count: "📥 **{N} notes** in inbox"
@@ -57,9 +57,9 @@ obsidian vault=Notepad tags file="Note Title"          # Get tags for a note
    a. **Display the note** using CLI:
 
    ```bash
-   obsidian vault=Notepad read file="Note Title"
-   obsidian vault=Notepad tags file="Note Title"
-   obsidian vault=Notepad links file="Note Title"
+   obsidian vault=KB read file="Note Title"
+   obsidian vault=KB tags file="Note Title"
+   obsidian vault=KB links file="Note Title"
    ```
 
    - Show the filename, full content, tags, and existing links
@@ -71,7 +71,7 @@ obsidian vault=Notepad tags file="Note Title"          # Get tags for a note
      - Phrases like "I should", "I need to", "to-do"
    - If actionable → suggest `10_Projects` and offer to convert frontmatter to `type: action` with `status: todo`
    - If not actionable → suggest a target folder with reasoning (e.g., "This reads like a personal reflection → `20_Journal`")
-   - Use `obsidian vault=Notepad search` to find **related notes** that could be linked
+   - Use `obsidian vault=KB search` to find **related notes** that could be linked
    - Assess note quality (atomic? clear title? own words?)
 
    c. **Present actions**:
@@ -82,11 +82,11 @@ obsidian vault=Notepad tags file="Note Title"          # Get tags for a note
    - **⏭️ Skip** — Leave in inbox for now, move to next note
 
    d. **Execute the chosen action**:
-   - For **File to `10_Projects`**: Update frontmatter (`type: action`, add `status: todo`, optionally add `priority`, `project`, `section`, `due`), then move: `obsidian vault=Notepad move file="Note Title" to="10_Projects"`.
-   - For **File** (non-action): `obsidian vault=Notepad move file="Note Title" to="30_Ideas"` — auto-updates links. If note quality is low, offer to upgrade the template from `fleeting` to `permanent`.
-   - For **Expand**: Ask guided questions ("What made you think of this?", "How does this connect to what you're working on?", "Is there an action item here?"). Use `obsidian vault=Notepad append` to update the note content. Then proceed to File.
-   - For **Connect**: Run a mini-version of `/cx-connect` on this note. Use `obsidian vault=Notepad append` to add approved `[[wikilinks]]`. Then proceed to File.
-   - For **Discard**: Confirm with user. `obsidian vault=Notepad delete file="Note Title"`.
+   - For **File to `10_Projects`**: Update frontmatter (`type: action`, add `status: todo`, optionally add `priority`, `project`, `section`, `due`), then move: `obsidian vault=KB move file="Note Title" to="10_Projects"`.
+   - For **File** (non-action): `obsidian vault=KB move file="Note Title" to="30_Ideas"` — auto-updates links. If note quality is low, offer to upgrade the template from `fleeting` to `permanent`.
+   - For **Expand**: Ask guided questions ("What made you think of this?", "How does this connect to what you're working on?", "Is there an action item here?"). Use `obsidian vault=KB append` to update the note content. Then proceed to File.
+   - For **Connect**: Run a mini-version of `/cx-connect` on this note. Use `obsidian vault=KB append` to add approved `[[wikilinks]]`. Then proceed to File.
+   - For **Discard**: Confirm with user. `obsidian vault=KB delete file="Note Title"`.
    - For **Skip**: Move to the next note.
 
    e. **Confirm**: Report what was done (e.g., "📁 Filed `My thought.md` → `30_Ideas`" or "✅ Task `Fix the bug.md` → `10_Projects` [status: todo]")

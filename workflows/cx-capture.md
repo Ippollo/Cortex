@@ -23,9 +23,9 @@ recommends_mcp: []
 ## CLI Commands Used
 
 ```bash
-obsidian vault=Notepad create path="00_Inbox/YYYY-MM-DD Title.md" content="..."
-obsidian vault=Notepad files folder=00_Inbox          # Check for filename collisions
-obsidian vault=Notepad vault info=path                 # Get vault path if needed
+obsidian vault=KB create path="00_Inbox/YYYY-MM-DD Title.md" content="..."
+obsidian vault=KB files folder=00_Inbox          # Check for filename collisions
+obsidian vault=KB vault info=path                 # Get vault path if needed
 ```
 
 ## Steps
@@ -55,7 +55,7 @@ obsidian vault=Notepad vault info=path                 # Get vault path if neede
    Build the frontmatter and content inline (the Templates plugin may not be configured):
 
    ```bash
-   obsidian vault=Notepad create path="00_Inbox/YYYY-MM-DD {title}.md" content="---\ndate: YYYY-MM-DD\ntype: fleeting\ntags: [{extracted_tags}]\n---\n\n# {title}\n\n{content}"
+   obsidian vault=KB create path="00_Inbox/YYYY-MM-DD {title}.md" content="---\ndate: YYYY-MM-DD\ntype: fleeting\ntags: [{extracted_tags}]\n---\n\n# {title}\n\n{content}"
    ```
 
    - The CLI will error if the file already exists — if so, append a numeric suffix and retry

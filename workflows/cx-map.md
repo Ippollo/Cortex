@@ -28,14 +28,14 @@ recommends_mcp: [sequential-thinking]
 ## CLI Commands Used
 
 ```bash
-obsidian vault=Notepad search query="..." format=json          # Find notes related to topic
-obsidian vault=Notepad tag name="tagname" verbose               # Find notes sharing a tag
-obsidian vault=Notepad tags counts sort=count format=json       # Discover tag vocabulary
-obsidian vault=Notepad read file="Note Title"                   # Read candidate notes
-obsidian vault=Notepad backlinks file="Note Title" format=json  # Check note connectivity
-obsidian vault=Notepad orphans                                  # Find unconnected notes to include
-obsidian vault=Notepad create name="MOC - Topic" content="..."  # Create the MOC note
-obsidian vault=Notepad append file="MOC - Topic" content="..."  # Update existing MOC
+obsidian vault=KB search query="..." format=json          # Find notes related to topic
+obsidian vault=KB tag name="tagname" verbose               # Find notes sharing a tag
+obsidian vault=KB tags counts sort=count format=json       # Discover tag vocabulary
+obsidian vault=KB read file="Note Title"                   # Read candidate notes
+obsidian vault=KB backlinks file="Note Title" format=json  # Check note connectivity
+obsidian vault=KB orphans                                  # Find unconnected notes to include
+obsidian vault=KB create name="MOC - Topic" content="..."  # Create the MOC note
+obsidian vault=KB append file="MOC - Topic" content="..."  # Update existing MOC
 ```
 
 ## Steps
@@ -45,8 +45,8 @@ obsidian vault=Notepad append file="MOC - Topic" content="..."  # Update existin
 2. **Scan the vault** for related notes using CLI:
 
    ```bash
-   obsidian vault=Notepad search query="productivity" format=json   # Content/title matches
-   obsidian vault=Notepad tag name="productivity" verbose            # Tag matches
+   obsidian vault=KB search query="productivity" format=json   # Content/title matches
+   obsidian vault=KB tag name="productivity" verbose            # Tag matches
    ```
 
    - Include notes from all folders (except `99_System`)
@@ -81,14 +81,14 @@ obsidian vault=Notepad append file="MOC - Topic" content="..."  # Update existin
 4. **Create or update the MOC** via CLI:
 
    ```bash
-   obsidian vault=Notepad create name="MOC - Productivity" content="---\ndate: YYYY-MM-DD\ntype: moc\ntags: [productivity]\n---\n\n# MOC - Productivity\n\n{grouped_links}" open
+   obsidian vault=KB create name="MOC - Productivity" content="---\ndate: YYYY-MM-DD\ntype: moc\ntags: [productivity]\n---\n\n# MOC - Productivity\n\n{grouped_links}" open
    ```
 
    - Save to the user's chosen folder (suggest `40_Knowledge` or root)
    - Falls back to `write_to_file` if Obsidian is not running
 
 5. **Handle existing MOCs**:
-   - Check if a MOC for this topic exists: `obsidian vault=Notepad search query="MOC - Productivity"`
+   - Check if a MOC for this topic exists: `obsidian vault=KB search query="MOC - Productivity"`
    - If it exists, read it with `obsidian read`, show what's new, and offer to merge via `obsidian append`
 
 ## Usage
