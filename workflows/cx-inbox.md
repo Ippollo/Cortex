@@ -65,7 +65,15 @@ obsidian vault=KB tags file="Note Title"          # Get tags for a note
    - Show the filename, full content, tags, and existing links
 
    b. **Analyze and suggest** (using the Librarian agent):
-   - **Check for actionability first**: Does this note describe something the user needs to *do*? Look for signals:
+
+   - **Check for duplicates first**: Before any filing suggestion, search the vault for existing notes that cover the same topic:
+     - Extract 2-3 key terms from the note's title and content
+     - Run `obsidian vault=KB search query="..." format=json` for each term
+     - Read any promising matches to compare content
+     - If an existing note covers the same ground → flag as **⚠️ Potential duplicate** and suggest **🗑️ Discard** or **🔀 Merge** (append unique content into the existing note, then discard)
+     - Bare captures without frontmatter are the most likely duplicates — be extra thorough with these
+
+   - **Check for actionability**: Does this note describe something the user needs to *do*? Look for signals:
      - Action verbs ("research", "build", "fix", "update", "set up")
      - Tags like `action-item`
      - Phrases like "I should", "I need to", "to-do"
@@ -78,6 +86,7 @@ obsidian vault=KB tags file="Note Title"          # Get tags for a note
    - **📁 File** — Move to the suggested folder (or user-specified folder)
    - **✏️ Expand** — Flesh out the note through guided questions before filing
    - **🔗 Connect** — Add `[[wikilinks]]` to related notes, then file
+   - **🔀 Merge** — Append unique content into an existing note, then discard this one (shown when duplicate detected)
    - **🗑️ Discard** — Delete the note (require confirmation)
    - **⏭️ Skip** — Leave in inbox for now, move to next note
 
@@ -86,6 +95,7 @@ obsidian vault=KB tags file="Note Title"          # Get tags for a note
    - For **File** (non-action): `obsidian vault=KB move file="Note Title" to="30_Ideas"` — auto-updates links. If note quality is low, offer to upgrade the template from `fleeting` to `permanent`.
    - For **Expand**: Ask guided questions ("What made you think of this?", "How does this connect to what you're working on?", "Is there an action item here?"). Use `obsidian vault=KB append` to update the note content. Then proceed to File.
    - For **Connect**: Run a mini-version of `/cx-connect` on this note. Use `obsidian vault=KB append` to add approved `[[wikilinks]]`. Then proceed to File.
+   - For **Merge**: Show the target note and what will be appended. Use `obsidian vault=KB append file="Target Note" content="..."` to add unique content. Then `obsidian vault=KB delete file="Note Title"` to remove the duplicate.
    - For **Discard**: Confirm with user. `obsidian vault=KB delete file="Note Title"`.
    - For **Skip**: Move to the next note.
 
