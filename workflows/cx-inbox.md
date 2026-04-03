@@ -1,6 +1,6 @@
 ---
-description: Process inbox items — file, expand, connect, or discard captured notes one by one.
-quick_summary: "Walk through inbox notes. For each: file, expand, connect, or discard."
+description: Process inbox items — batch triage, then file, expand, connect, or discard.
+quick_summary: "Batch-read inbox notes, auto-file obvious cases, surface ambiguous ones for decision."
 requires_mcp: []
 recommends_mcp: [sequential-thinking]
 ---
@@ -24,26 +24,33 @@ recommends_mcp: [sequential-thinking]
 - After a brainstorming session to sort and file ideas
 - As a regular habit (daily or weekly inbox zero)
 
+## Token Efficiency Rules
+
+> **These rules exist to prevent excessive token usage. Follow them strictly.**
+
+1. **Batch, don't loop** — Read all notes upfront, present one summary table, get batch approval. Do NOT process notes one-at-a-time with separate user confirmations unless the user explicitly requests it.
+2. **Use `view_file` to read notes** — Do NOT use `obsidian vault=KB read`. The CLI `read` output gets garbled in terminal rendering. `view_file` returns clean, reliable content.
+3. **Use PowerShell for frontmatter edits** — Do NOT use `replace_file_content` or `multi_replace_file_content` for markdown note housekeeping. Use a simple PowerShell string replacement:
+   ```powershell
+   (Get-Content "path/to/note.md" -Raw) -replace 'type: fleeting', "type: action`nstatus: todo" | Set-Content "path/to/note.md"
+   ```
+4. **Use CLI for structural ops** — `obsidian move`, `obsidian append`, `obsidian delete`, `obsidian search` are the right tools for their jobs.
+5. **One search per note max** — Extract the most distinctive term from the title and run one search. Don't run 2-3 overlapping searches per note.
+6. **Skip reading config** — The vault config is in the system prompt via AGENTS.md. Don't re-read `../config.md` every session.
+
 ## CLI Commands Used
 
 ```bash
 obsidian vault=KB files folder=00_Inbox           # List inbox contents
-obsidian vault=KB read file="Note Title"          # Read a note's content
-obsidian vault=KB file file="Note Title"          # Get file metadata
 obsidian vault=KB move file="Note Title" to="20_Ideas"  # Move note to folder (auto-updates links)
 obsidian vault=KB delete file="Note Title"        # Delete a note (sends to trash)
 obsidian vault=KB append file="Note Title" content="..."  # Add content to a note
-obsidian vault=KB backlinks file="Note Title"     # Check what links to this note
-obsidian vault=KB links file="Note Title"         # Check outgoing links
 obsidian vault=KB search query="..." format=json  # Find related notes
-obsidian vault=KB tags file="Note Title"          # Get tags for a note
 ```
 
 ## Steps
 
-1. **Read vault config** from `../config.md`
-
-2. **List inbox contents** via CLI:
+1. **List inbox contents** via CLI:
 
    ```bash
    obsidian vault=KB files folder=00_Inbox
@@ -52,75 +59,88 @@ obsidian vault=KB tags file="Note Title"          # Get tags for a note
    - Report count: "📥 **{N} notes** in inbox"
    - If inbox is empty: report "✅ Inbox is clear!" and exit
 
-3. **Process each note** (one at a time):
+2. **Batch read all notes** using `view_file` (NOT CLI read):
 
-   a. **Display the note** using CLI:
+   - Read every inbox note using `view_file` — issue all reads in parallel
+   - For each note, extract: title, frontmatter (type, tags, status), content summary, any action signals
 
-   ```bash
-   obsidian vault=KB read file="Note Title"
-   obsidian vault=KB tags file="Note Title"
-   obsidian vault=KB links file="Note Title"
+3. **Two-tier triage** — Classify each note:
+
+   **Tier 1 — Auto-file (no AI judgment needed)**:
+   - Notes with `type: task` already set → `10_Projects` (just add `status: todo` if missing, then move)
+   - Notes with clear action verbs in title AND a "Done-When" or checklist section → `10_Projects`
+   - Bare captures that are exact duplicates of existing notes (title match) → flag for discard
+
+   **Tier 2 — AI judgment needed**:
+   - Notes with mixed signals (reference content + embedded actions)
+   - Notes where the right folder isn't obvious
+   - Notes that might be duplicates but need content comparison
+
+4. **Present the batch summary** as a single table:
+
+   ```
+   | # | Note Title | Tier | Suggested Action | Destination |
+   |---|-----------|------|-----------------|-------------|
+   | 1 | Fix the bug | Auto | 📁 File (task) | 10_Projects |
+   | 2 | Karpathy analysis | AI | 📁 File (action) | 10_Projects |
+   | 3 | Old reminder | Auto | 🗑️ Discard | — |
    ```
 
-   - Show the filename, full content, tags, and existing links
+   - For Tier 2 notes, include a brief rationale (1 sentence)
+   - Flag any notes with embedded actions explicitly: "⚠️ Has action items"
+   - Flag potential duplicates: "⚠️ Potential duplicate of [[existing note]]"
 
-   b. **Analyze and suggest** (using the Librarian agent):
+5. **Get batch approval** — Ask the user to:
+   - Approve all suggestions, OR
+   - Override specific rows (e.g., "Note 2 should go to 40_Knowledge instead")
+   - Request expansion or connection for specific notes
 
-   - **Check for duplicates first**: Before any filing suggestion, search the vault for existing notes that cover the same topic:
-     - Extract 2-3 key terms from the note's title and content
-     - Run `obsidian vault=KB search query="..." format=json` for each term
-     - Read any promising matches to compare content
-     - If an existing note covers the same ground → flag as **⚠️ Potential duplicate** and suggest **🗑️ Discard** or **🔀 Merge** (append unique content into the existing note, then discard)
-     - Bare captures without frontmatter are the most likely duplicates — be extra thorough with these
+6. **Execute all approved actions** in one pass:
 
-   - **Check for actionability**: Does this note describe something the user needs to *do*? Look for signals:
-     - Action verbs ("research", "build", "fix", "update", "set up")
-     - Tags like `action-item`
-     - Phrases like "I should", "I need to", "to-do"
-   - If actionable → suggest `10_Projects` and offer to convert frontmatter to `type: action` with `status: todo`
-   - If not actionable → suggest a target folder with reasoning (e.g., "This reads like a personal reflection → `20_Journal`")
-   - Use `obsidian vault=KB search` to find **related notes** that could be linked
-   - Assess note quality (atomic? clear title? own words?)
+   a. **Frontmatter updates** (all at once, using PowerShell):
+   ```powershell
+   # For action items needing type/status update:
+   (Get-Content "path/to/note.md" -Raw) -replace 'type: fleeting', "type: action`nstatus: todo" | Set-Content "path/to/note.md"
+   ```
 
-   c. **Present actions**:
-   - **📁 File** — Move to the suggested folder (or user-specified folder)
-   - **✏️ Expand** — Flesh out the note through guided questions before filing
-   - **🔗 Connect** — Add `[[wikilinks]]` to related notes, then file
-   - **🔀 Merge** — Append unique content into an existing note, then discard this one (shown when duplicate detected)
-   - **🗑️ Discard** — Delete the note (require confirmation)
-   - **⏭️ Skip** — Leave in inbox for now, move to next note
+   b. **Connection pass** (only for notes the user requested connections):
+   - Run one search per note for related content
+   - Use `obsidian vault=KB append` to add `## Related` wikilinks
 
-   d. **Execute the chosen action**:
-   - For **File to `10_Projects`**: Update frontmatter (`type: action`, add `status: todo`, optionally add `priority`, `project`, `section`, `due`), then move: `obsidian vault=KB move file="Note Title" to="10_Projects"`.
-   - For **File** (non-action): `obsidian vault=KB move file="Note Title" to="30_Ideas"` — auto-updates links. If note quality is low, offer to upgrade the template from `fleeting` to `permanent`.
-   - For **Expand**: Ask guided questions ("What made you think of this?", "How does this connect to what you're working on?", "Is there an action item here?"). Use `obsidian vault=KB append` to update the note content. Then proceed to File.
-   - For **Connect**: Run a mini-version of `/cx-connect` on this note. Use `obsidian vault=KB append` to add approved `[[wikilinks]]`. Then proceed to File.
-   - For **Merge**: Show the target note and what will be appended. Use `obsidian vault=KB append file="Target Note" content="..."` to add unique content. Then `obsidian vault=KB delete file="Note Title"` to remove the duplicate.
-   - For **Discard**: Confirm with user. `obsidian vault=KB delete file="Note Title"`.
-   - For **Skip**: Move to the next note.
+   c. **Move pass** (all moves):
+   ```bash
+   obsidian vault=KB move file="Note Title" to="10_Projects"
+   ```
 
-   e. **Confirm**: Report what was done (e.g., "📁 Filed `My thought.md` → `30_Ideas`" or "✅ Task `Fix the bug.md` → `10_Projects` [status: todo]")
+   d. **Discard pass** (all discards, with confirmation):
+   ```bash
+   obsidian vault=KB delete file="Note Title"
+   ```
 
-4. **Summary**: After processing all notes (or user stops):
-   - Report how many notes were filed, expanded, connected, discarded, skipped
-   - Report remaining inbox count
+7. **Summary**: Report what was done:
+   - How many auto-filed, AI-filed, expanded, connected, discarded, skipped
+   - Remaining inbox count
 
 ## Usage
 
 ```bash
-# Process all inbox notes
+# Standard batch processing
 /cx-inbox
 
-# Process with a specific focus
-/cx-inbox "Just file everything quickly, no expansion"
+# Quick mode — auto-file everything, minimal interaction
+/cx-inbox "Just file everything quickly"
+
+# Thorough mode — connect every note before filing
+/cx-inbox "Connect all notes before filing"
 ```
 
 ## Key Principles
 
-- **One at a time** — don't overwhelm with all notes at once
+- **Batch by default** — present all notes at once, minimize round-trips
 - **User always decides** — suggestions are suggestions, not decisions
 - **Inbox zero is the goal** — but skipping is always an option
 - **Quality is optional** — a filed note is better than a perfect note still in the inbox
+- **Cheap tools for cheap tasks** — PowerShell for text edits, CLI for structural ops, AI only for judgment calls
 
 ## Next Steps
 

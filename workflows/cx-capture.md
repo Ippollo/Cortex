@@ -20,25 +20,12 @@ recommends_mcp: []
 - You want to bookmark a topic for later exploration
 - Any time — this should be the lowest-friction action in the toolkit
 
-## CLI Commands Used
-
-```bash
-obsidian vault=KB create path="00_Inbox/YYYY-MM-DD Title.md" content="..."
-obsidian vault=KB files folder=00_Inbox          # Check for filename collisions
-obsidian vault=KB vault info=path                 # Get vault path if needed
-```
-
 ## Steps
 
 // turbo-all
 
-0. **Pre-flight: check for hung CLI processes**:
-   - Check whether any previous `obsidian` CLI command is still running in the background
-   - If a hung process is detected, terminate it before proceeding — a stuck process will block all subsequent CLI calls
-   - This is the most common cause of CLI hangs; it is not a vault targeting issue
-
 1. **Read vault config** from `../config.md`:
-   - Get the vault path and inbox folder name
+   - Get the vault path (`C:\Workspace\KB`) and inbox folder name (`00_Inbox`)
 
 2. **Parse the user's input**:
    - Extract the content (everything the user typed after `/cx-capture`)
@@ -50,16 +37,15 @@ obsidian vault=KB vault info=path                 # Get vault path if needed
    - If the capture references external content (a post, article, video, tweet, etc.) and no URL was provided, **ask the user for the link before creating the note**
    - This is the one exception to the "no questions asked" principle — sources need URLs
 
-4. **Create the note** via Obsidian CLI:
+4. **Create the note** via `write_to_file`:
 
-   Build the frontmatter and content inline (the Templates plugin may not be configured):
+   Write directly to the vault inbox directory. Do NOT use the Obsidian CLI — it hangs frequently on create commands and `write_to_file` produces identical results with zero risk.
 
-   ```bash
-   obsidian vault=KB create path="00_Inbox/YYYY-MM-DD {title}.md" content="---\ndate: YYYY-MM-DD\ntype: fleeting\ntags: [{extracted_tags}]\n---\n\n# {title}\n\n{content}"
+   ```
+   Target: {vault_path}/{inbox_folder}/YYYY-MM-DD {title}.md
    ```
 
-   - The CLI will error if the file already exists — if so, append a numeric suffix and retry
-   - Falls back to `write_to_file` if Obsidian is not running or if the CLI hangs after the pre-flight check
+   Build frontmatter and content as markdown. If the file already exists, append a numeric suffix and retry.
 
 5. **Confirm**:
    - Report: `✅ Captured → {inbox_folder}/{filename}`
