@@ -1,5 +1,5 @@
 ---
-description: Generate or update a Map of Content (MOC) for a topic with organized wikilinks.
+description: Generate or update a Map of Content (MOC).
 quick_summary: "Scan vault for topic → create structured MOC with grouped [[wikilinks]]."
 requires_mcp: []
 recommends_mcp: [sequential-thinking]

@@ -1,5 +1,5 @@
 ---
-description: Create a daily note with reflection prompts and links to recent captures.
+description: Create a daily note.
 quick_summary: "Create today's dated note with prompts and recent capture links."
 requires_mcp: []
 recommends_mcp: []

@@ -1,5 +1,5 @@
 ---
-description: Find and add wikilinks between related notes using AI-powered semantic matching.
+description: AI-powered semantic wikilinking.
 quick_summary: "Scan vault for related notes → suggest [[wikilinks]] → user approves each."
 requires_mcp: []
 recommends_mcp: [sequential-thinking]

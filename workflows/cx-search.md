@@ -1,5 +1,5 @@
 ---
-description: Search the vault for notes matching a query using keyword and semantic matching.
+description: Search the vault.
 quick_summary: "Search vault by keyword + AI semantic matching → display results with previews."
 requires_mcp: []
 recommends_mcp: []

@@ -1,5 +1,5 @@
 ---
-description: Surface older notes for review using spaced repetition and connection-based prioritization.
+description: Surface older notes for review.
 quick_summary: "Surface 3-5 forgotten notes → review, update, connect, or mark as reviewed."
 requires_mcp: []
 recommends_mcp: []

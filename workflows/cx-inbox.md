@@ -1,5 +1,5 @@
 ---
-description: Process inbox items — batch triage, then file, expand, connect, or discard.
+description: Process inbox items.
 quick_summary: "Batch-read inbox notes, auto-file obvious cases, surface ambiguous ones for decision."
 requires_mcp: []
 recommends_mcp: [sequential-thinking]
@@ -70,6 +70,8 @@ obsidian vault=KB search query="..." format=json  # Find related notes
    - Notes with `type: task` already set → `10_Projects` (just add `status: todo` if missing, then move)
    - Notes with clear action verbs in title AND a "Done-When" or checklist section → `10_Projects`
    - Bare captures that are exact duplicates of existing notes (title match) → flag for discard
+   - Notes with `tags: [decision]` → root vault (`decisions.md` append if applicable) or `10_Projects`
+   - Notes with `tags: [meeting]` → `20_Journal`
 
    **Tier 2 — AI judgment needed**:
    - Notes with mixed signals (reference content + embedded actions)

@@ -128,7 +128,7 @@ When tagging a note, choose from this list first. Only create new tags if none o
 ### Convention
 
 - Use descriptive titles with spaces: `Building Agentic apps.md`
-- For captures with timestamps: `YYYY-MM-DD Title.md` (e.g., `2026-03-06 Quick thought about X.md`)
+- Date is tracked in frontmatter, not the filename.
 - No special characters that break file systems: avoid `< > : " / \ | ? *`
 - Keep titles concise but descriptive — they become the wikilink target
 

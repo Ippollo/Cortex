@@ -1,5 +1,5 @@
 ---
-description: Combine multiple notes on a topic into a higher-level insight note with source attribution.
+description: Combine notes into a higher-level insight.
 quick_summary: "Find related notes → read all → produce synthesis with [[wikilink]] attribution."
 requires_mcp: []
 recommends_mcp: [sequential-thinking]
