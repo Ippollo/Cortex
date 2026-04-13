@@ -70,7 +70,6 @@ Cortex is the thinking layer of your personal operating system. It eliminates th
 | `/cx-synthesize` | P2       | Combine notes into higher-level insights                   |
 | `/cx-review`     | P2       | Surface forgotten notes for progressive review             |
 | `/cx-map`        | P3       | Generate Maps of Content for topic navigation              |
-| `/cx-daily`      | P3       | Create daily notes with reflection prompts                 |
 | `/cx-search`     | P3       | Search vault by keyword + semantic matching                |
 
 ## Architecture
@@ -78,7 +77,7 @@ Cortex is the thinking layer of your personal operating system. It eliminates th
 ```
 cortex/
 ├── config.md               # Vault path, CLI config & preferences
-├── workflows/              # The 8 workflows above
+├── workflows/              # The 7 workflows above
 ├── agents/
 │   ├── librarian.md        # Files, organizes, connects notes
 │   └── synthesizer.md      # Combines notes into insights
