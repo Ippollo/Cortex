@@ -11,7 +11,7 @@ recommends_mcp: []
 
 > **Skill Reference**:
 >
-> - [obsidian-conventions](../skills/obsidian-conventions/SKILL.md) — Vault path, file structure, CLI commands
+> - [obsidian-conventions](../skills/obsidian-conventions/SKILL.md) — Vault path, file structure
 
 ## When to Use
 
@@ -20,51 +20,41 @@ recommends_mcp: []
 - Before creating a new note, to check if one already exists
 - When `/cx-connect` or `/cx-synthesize` need to discover related notes
 
-## CLI Commands Used
+## Path Resolution
 
-```bash
-obsidian vault=KB search query="..." format=json         # Keyword search across vault
-obsidian vault=KB search:context query="..." format=json # Search with matching line context
-obsidian vault=KB search query="..." path="folder"       # Search within a folder
-obsidian vault=KB search query="..." total               # Get match count
-obsidian vault=KB tag name="tagname" verbose              # Find notes with a specific tag
-obsidian vault=KB tags counts sort=count                  # List all tags by frequency
-obsidian vault=KB read file="Note Title"                  # Read a selected result
-```
+All vault paths start with `c:\HQ\KB\`. File-system tools require full paths. Use `grep_search` with the vault root as the search path.
 
 ## Steps
 
-1. **Read vault config** from `../config.md`
+1. **Parse the query** from the user's input
 
-2. **Parse the query** from the user's input
+2. **Search the vault** using file-system tools:
 
-3. **Search the vault** using CLI:
+   a. **Full-text search** with line context:
 
-   a. **Full-text search** with context:
-
-   ```bash
-   obsidian vault=KB search:context query="productivity" format=json
+   ```
+   grep_search: Query="productivity", SearchPath="c:\HQ\KB\", MatchPerLine=true
    ```
 
-   Returns grep-style `path:line: text` output for all matches.
+   Returns file paths, line numbers, and matching content for all hits.
 
    b. **Tag match**:
 
-   ```bash
-   obsidian vault=KB tag name="productivity" verbose
+   ```
+   grep_search: Query="productivity", SearchPath="c:\HQ\KB\", Includes=["*.md"], MatchPerLine=true
    ```
 
-   Returns all files tagged with `#productivity`.
+   Filter results for `tags:` frontmatter lines to find notes tagged with the concept.
 
    c. **Semantic match**: Use AI to evaluate the search results and find notes related to the concept even without exact keyword overlap.
 
-4. **Rank results** by relevance:
+3. **Rank results** by relevance:
    - Exact title matches first
    - Tag matches second
    - Content matches third
    - Semantic matches last (but flagged as AI-suggested)
 
-5. **Present results**:
+4. **Present results**:
 
    ```
    🔍 Search: "productivity"
@@ -84,9 +74,9 @@ obsidian vault=KB read file="Note Title"                  # Read a selected resu
    View a note? (enter number)
    ```
 
-6. **On selection**: Read and display the full note:
-   ```bash
-   obsidian vault=KB read file="My Productivity Workflow"
+5. **On selection**: Read and display the full note:
+   ```
+   view_file: c:\HQ\KB\{folder}\{filename}.md
    ```
 
 ## Usage

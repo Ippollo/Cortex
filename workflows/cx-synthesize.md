@@ -16,7 +16,7 @@ recommends_mcp: [sequential-thinking]
 > **Skill Reference**:
 >
 > - [pkm-methodology](../skills/pkm-methodology/SKILL.md) — Synthesis methodology
-> - [obsidian-conventions](../skills/obsidian-conventions/SKILL.md) — Wikilink format, file creation, CLI commands
+> - [obsidian-conventions](../skills/obsidian-conventions/SKILL.md) — Wikilink format, file creation
 
 ## When to Use
 
@@ -25,16 +25,9 @@ recommends_mcp: [sequential-thinking]
 - You notice recurring themes across your notes
 - During a review session when patterns emerge
 
-## CLI Commands Used
+## Path Resolution
 
-```bash
-obsidian vault=KB search query="..." format=json          # Find related notes by topic
-obsidian vault=KB tag name="tagname" verbose               # Find notes by tag
-obsidian vault=KB read file="Note Title"                   # Read each source note
-obsidian vault=KB backlinks file="Note Title" format=json  # Check connectivity
-obsidian vault=KB create name="Synthesis: Topic" content="..."  # Create synthesis note
-obsidian vault=KB append file="Source Note" content="..."  # Add backlink to source notes
-```
+All vault paths start with `c:\HQ\KB\`. Use `grep_search` to find notes by content or tags, `list_dir` to enumerate folders.
 
 ## Steps
 
@@ -42,9 +35,14 @@ obsidian vault=KB append file="Source Note" content="..."  # Add backlink to sou
    - Use the topic provided by the user
    - Search the vault for related notes:
 
-   ```bash
-   obsidian vault=KB search query="productivity" format=json
-   obsidian vault=KB tag name="productivity" verbose
+   ```
+   grep_search: Query="productivity", SearchPath="c:\HQ\KB\", MatchPerLine=true
+   ```
+
+   Also search by tag:
+
+   ```
+   grep_search: Query="tags:.*productivity", SearchPath="c:\HQ\KB\", IsRegex=true, MatchPerLine=true
    ```
 
 2. **Present source notes**:
@@ -61,12 +59,12 @@ obsidian vault=KB append file="Source Note" content="..."  # Add backlink to sou
    Synthesize all, or select specific notes?
    ```
 
-3. **Read all selected source notes** via CLI:
+3. **Read all selected source notes** via `view_file`:
 
-   ```bash
-   obsidian vault=KB read file="My Productivity Workflow"
-   obsidian vault=KB read file="The Perfect Work Day"
-   # ... etc
+   ```
+   view_file: c:\HQ\KB\20_Journal\My Productivity Workflow.md
+   view_file: c:\HQ\KB\20_Journal\The Perfect Work Day.md
+   # ... etc (issue all reads in parallel)
    ```
 
 4. **Synthesize** (using the Synthesizer agent):
@@ -83,16 +81,36 @@ obsidian vault=KB append file="Source Note" content="..."  # Add backlink to sou
 
 6. **Present the draft** for review
 
-7. **Save on confirmation** via CLI:
-   ```bash
-   obsidian vault=KB create name="Synthesis: Productivity" content="---\ndate: YYYY-MM-DD\ntype: synthesis\ntags: [productivity]\n---\n\n# Synthesis: Productivity\n\n{insight}\n\n## Sources\n{source_links}\n\n## Open Questions\n{questions}" open
+7. **Save on confirmation** via `write_to_file`:
+
+   ```
+   write_to_file: c:\HQ\KB\30_Ideas\Synthesis - Productivity.md
+   ```
+
+   Content:
+   ```markdown
+   ---
+   date: YYYY-MM-DD
+   type: synthesis
+   tags: [productivity]
+   ---
+
+   # Synthesis: Productivity
+
+   {insight}
+
+   ## Sources
+   {source_links}
+
+   ## Open Questions
+   {questions}
    ```
 
    - Write to the appropriate folder (suggest `30_Ideas` or user-chosen)
-   - Optionally add a backlink to the synthesis from each source note:
-   ```bash
-   obsidian vault=KB append file="My Productivity Workflow" content="\n\nSynthesized in [[Synthesis: Productivity]]"
-   ```
+   - Optionally add a backlink from each source note using read-modify-write:
+     - Read source note with `view_file`
+     - Append `\n\nSynthesized in [[Synthesis: Productivity]]`
+     - Write back with `write_to_file` (overwrite)
 
 ## Usage
 

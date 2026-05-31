@@ -6,9 +6,9 @@ Cortex is the thinking layer of your personal operating system. It eliminates th
 
 ## Prerequisites
 
-- **Obsidian 1.12+** with the [CLI enabled](https://help.obsidian.md/cli)
-- Obsidian desktop app running (CLI connects to the running instance)
-- Cortex and Obsidian vault added to your IDE workspace
+- **Obsidian** installed for UI browsing, graph view, and sync
+- Vault directory accessible via filesystem (`c:\HQ\KB\`)
+- Cortex added to your IDE workspace
 
 ## How It Works
 
@@ -20,12 +20,12 @@ Cortex is the thinking layer of your personal operating system. It eliminates th
 │                     │     │                     │     │                     │
 └────────┬────────────┘     └─────────────────────┘     └────────┬────────────┘
          │                                                       │
-         └───────────────── Obsidian CLI ───────────────────────┘
-                        (shared command interface)
+         └──────────── File-System Tools ─────────────────────┘
+               (view_file, grep_search, write_to_file)
 ```
 
 - **Cortex** = AI workflows for capture, connection, synthesis, and review
-- **Obsidian CLI** = Command-line bridge — Cortex uses it to interact with Obsidian's link graph, search index, and template engine
+- **File-system tools** = `view_file`, `grep_search`, `list_dir`, `write_to_file` — direct file access, no CLI dependency
 - **Obsidian** = UI for browsing, graph view, mobile access, and sync
 - **Your vault** = Plain markdown files shared by all tools
 
@@ -44,18 +44,9 @@ Cortex is the thinking layer of your personal operating system. It eliminates th
    - **Vault Name**: YourVaultName
    ```
 
-3. **Enable Obsidian CLI** — in Obsidian: Settings → General → enable "Command line interface"
+3. **Add to your IDE workspace** — add the `cortex/` folder alongside your vault folder
 
-4. **Verify CLI** — in your terminal:
-
-   ```bash
-   obsidian version
-   obsidian vault
-   ```
-
-5. **Add to your IDE workspace** — add the `cortex/` folder alongside your vault folder
-
-6. **Start capturing**:
+4. **Start capturing**:
    ```
    /cx-capture "My first thought captured from Cortex"
    ```
@@ -71,19 +62,20 @@ Cortex is the thinking layer of your personal operating system. It eliminates th
 | `/cx-review`     | P2       | Surface forgotten notes for progressive review             |
 | `/cx-map`        | P3       | Generate Maps of Content for topic navigation              |
 | `/cx-search`     | P3       | Search vault by keyword + semantic matching                |
+| `/cx-file-artifact` | P3    | File a brain artifact into the vault                       |
 
 ## Architecture
 
 ```
 cortex/
-├── config.md               # Vault path, CLI config & preferences
-├── workflows/              # The 7 workflows above
+├── config.md               # Vault path & access config
+├── workflows/              # The 8 workflows above
 ├── agents/
 │   ├── librarian.md        # Files, organizes, connects notes
 │   └── synthesizer.md      # Combines notes into insights
 ├── skills/
 │   ├── pkm-methodology/    # Zettelkasten, Progressive Summarization, MOCs
-│   └── obsidian-conventions/  # Wikilinks, tags, file naming, CLI commands
+│   └── obsidian-conventions/  # Wikilinks, tags, file naming, vault structure
 ├── templates/
 │   ├── fleeting.md         # Quick capture
 │   ├── permanent.md        # Refined atomic note
@@ -97,7 +89,7 @@ cortex/
 
 ## Design Principles
 
-- **CLI-first** — workflows use Obsidian CLI to leverage the link graph, search index, and template engine
+- **File-system first** — workflows use `view_file`, `grep_search`, `list_dir`, and `write_to_file` for all vault operations. No external CLI dependency.
 - **Plain markdown** — every note is readable without any AI tool
 - **AI-agnostic** — workflows are instructions, not code. Swap the AI engine without rebuilding
 - **Obsidian-compatible** — `[[wikilinks]]`, `#tags`, no YAML frontmatter forced on existing notes

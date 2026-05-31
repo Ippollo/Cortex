@@ -11,7 +11,7 @@ recommends_mcp: []
 
 > **Skill Reference**:
 >
-> - [obsidian-conventions](../skills/obsidian-conventions/SKILL.md) — File naming, frontmatter, folder structure, CLI commands
+> - [obsidian-conventions](../skills/obsidian-conventions/SKILL.md) — File naming, frontmatter, folder structure
 
 ## When to Use
 
@@ -67,19 +67,18 @@ Artifacts that stay in `brain/` evaporate when the conversation ends. Artifacts 
    - Remove implementation plan boilerplate that's irrelevant outside the conversation context
 
 6. **Check for collisions**:
-   - Use `obsidian file file="Title"` to verify the title doesn't already exist
+   - Use `grep_search` to search for the title across `c:\HQ\KB\` to verify it doesn't already exist
    - If collision: append ` 2` or add more specificity to the title
 
 7. **Write the note** via `write_to_file`:
    ```
-   Target: C:\Workspace\KB\{folder}\{title}.md
+   write_to_file: c:\HQ\KB\{folder}\{title}.md
    ```
-   Use `write_to_file` directly (not Obsidian CLI create — cx-capture pattern, avoids CLI hanging risk).
 
 8. **Connect to related notes** (optional but recommended):
-   - Run a quick `obsidian search:context` for the note's main concepts
+   - Run a quick `grep_search` for the note's main concepts across the vault
    - Suggest 2–3 existing vault notes to link
-   - Append a `## Related` section with approved wikilinks via `obsidian append`
+   - If approved, read the new note, append a `## Related` section with wikilinks, write back
 
 9. **Confirm**:
    - Report: `✅ Filed → {folder}/{title}.md`
@@ -95,7 +94,7 @@ Artifacts that stay in `brain/` evaporate when the conversation ends. Artifacts 
 /cx-file-artifact the Karpathy knowledge base analysis
 → Agent locates the matching artifact and proceeds
 
-/cx-file-artifact C:\Users\YourUser\.gemini\antigravity\brain\9aee74df-...\analysis_karpathy.md
+/cx-file-artifact C:\Users\Chris\.gemini\antigravity-ide\brain\9aee74df-...\analysis_karpathy.md
 → Agent uses the explicit path
 ```
 
@@ -103,7 +102,7 @@ Artifacts that stay in `brain/` evaporate when the conversation ends. Artifacts 
 
 - **Multiple artifacts**: If the user wants to file several at once, process them one at a time and confirm each
 - **Code-heavy artifacts**: If the artifact is mostly code (e.g., a script), file to `40_Knowledge/` with `type: reference` and note that executable scripts belong in their project repos, not the vault
-- **Already in vault**: If a similar note exists, offer to merge/append rather than create a duplicate — use `obsidian search:context` to detect near-duplicates first
+- **Already in vault**: If a similar note exists, offer to merge/append rather than create a duplicate — use `grep_search` to detect near-duplicates first
 
 ## Next Steps
 

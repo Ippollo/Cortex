@@ -2,7 +2,7 @@
 
 > Complete index of all workflows, agents, skills, and templates.
 >
-> **Requires**: Obsidian 1.12+ with [CLI enabled](https://help.obsidian.md/cli). All workflows use CLI commands to interact with the vault.
+> All workflows use file-system tools (`view_file`, `grep_search`, `list_dir`, `write_to_file`) to interact with the vault directly. No external CLI required.
 
 ## Workflows
 
@@ -15,6 +15,7 @@
 | `/cx-review`     | [cx-review.md](workflows/cx-review.md)         | Spaced repetition note surfacing               |
 | `/cx-map`        | [cx-map.md](workflows/cx-map.md)               | Generate Maps of Content                       |
 | `/cx-search`     | [cx-search.md](workflows/cx-search.md)         | Keyword + semantic vault search                |
+| `/cx-file-artifact` | [cx-file-artifact.md](workflows/cx-file-artifact.md) | File a brain artifact into the vault           |
 
 ## Agents
 
@@ -28,7 +29,7 @@
 | Name                 | Path                                                          | Description                                       |
 | -------------------- | ------------------------------------------------------------- | ------------------------------------------------- |
 | PKM Methodology      | [pkm-methodology/](skills/pkm-methodology/SKILL.md)           | Zettelkasten, Progressive Summarization, MOCs     |
-| Obsidian Conventions | [obsidian-conventions/](skills/obsidian-conventions/SKILL.md) | Wikilinks, tags, file naming, CLI commands (v2.0) |
+| Obsidian Conventions | [obsidian-conventions/](skills/obsidian-conventions/SKILL.md) | Wikilinks, tags, file naming, vault structure     |
 
 ## Templates
 

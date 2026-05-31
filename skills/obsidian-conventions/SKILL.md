@@ -1,10 +1,9 @@
 ---
 name: Obsidian Conventions
-description: Obsidian vault file format, wikilink syntax, tag conventions, CLI commands, and compatibility rules. Loaded when agents create or modify files in the vault.
-version: 3.0.0
+description: Obsidian vault file format, wikilink syntax, tag conventions, and vault structure rules. Loaded when agents create or modify files in the vault.
+version: 4.0.0
 triggers:
   - obsidian
-  - obsidian cli
   - wikilink
   - vault
   - tag format
@@ -18,58 +17,51 @@ metadata:
 
 Rules and patterns for working with an Obsidian vault. All agents and workflows that read from or write to the vault MUST follow these conventions.
 
-## Obsidian CLI
+## Vault Access
 
-The Obsidian CLI (v1.12+) is the **preferred** way to interact with the vault from Cortex. It connects to the running Obsidian app and leverages its link graph, search index, and template engine.
+All vault operations use **file-system tools exclusively**. The Obsidian CLI is deprecated due to reliability issues (hanging on commands).
 
-> **Requirement**: Obsidian desktop must be running. If Obsidian is closed, fall back to raw filesystem operations.
+> **Reference**: See `c:\HQ\vault-manual.md` for the authoritative vault access rules and `c:\HQ\decisions.md` for the deprecation rationale.
 
-### Key Commands
+### Tool Mapping
 
-| Operation           | CLI Command                                                    | Replaces                        |
-| ------------------- | -------------------------------------------------------------- | ------------------------------- |
-| Create a note       | `obsidian create name="Title" content="..." template=fleeting` | `write_to_file`                 |
-| Read a note         | `obsidian read file="Title"`                                   | `view_file`                     |
-| Append to a note    | `obsidian append file="Title" content="..."`                   | Manual read + rewrite           |
-| Move a note         | `obsidian move file="Title" to="30_Ideas"`                     | Read/write/delete + link scan   |
-| Rename a note       | `obsidian rename file="Title" name="New Title"`                | Manual + link updates           |
-| Delete a note       | `obsidian delete file="Title"`                                 | Manual delete                   |
-| Search vault        | `obsidian search query="..." format=json`                      | `grep_search`                   |
-| Search with context | `obsidian search:context query="..." format=json`              | `grep_search`                   |
-| List files          | `obsidian files folder="00_Inbox"`                             | `list_dir`                      |
-| Get file info       | `obsidian file file="Title"`                                   | File system stats               |
-| Get backlinks       | `obsidian backlinks file="Title" format=json`                  | Manual wikilink grep            |
-| Get outgoing links  | `obsidian links file="Title"`                                  | Manual wikilink grep            |
-| Find orphan notes   | `obsidian orphans`                                             | Manual link analysis            |
-| Find dead-end notes | `obsidian deadends`                                            | Manual link analysis            |
-| List tags           | `obsidian tags counts format=json`                             | Manual tag grep                 |
-| Tag info            | `obsidian tag name="productivity" verbose`                     | `grep_search` for tags          |
-| Open daily note     | `obsidian daily`                                               | Manual date-based file creation |
-| Append to daily     | `obsidian daily:append content="..."`                          | Manual file append              |
-| Daily note path     | `obsidian daily:path`                                          | Manual path construction        |
-| Read properties     | `obsidian property:read name="..." file="..."`                 | Parse YAML manually             |
-| Set properties      | `obsidian property:set name="..." value="..." file="..."`      | Manual YAML edit                |
-| List templates      | `obsidian templates`                                           | `list_dir` on templates folder  |
-| Read template       | `obsidian template:read name="..." resolve`                    | `view_file`                     |
-| Recent files        | `obsidian recents`                                             | Sort files by mtime             |
-| Execute JS          | `obsidian eval code="..."`                                     | N/A — new capability            |
+| Operation           | Tool                      | Example                                                      |
+| ------------------- | ------------------------- | ------------------------------------------------------------ |
+| Read a note         | `view_file`               | `view_file: c:\HQ\KB\30_Ideas\My Note.md`                   |
+| Search vault        | `grep_search`             | `grep_search: Query="productivity", SearchPath="c:\HQ\KB\"` |
+| Search with context | `grep_search`             | `grep_search: Query="...", MatchPerLine=true`                |
+| List files          | `list_dir`                | `list_dir: c:\HQ\KB\00_Inbox`                               |
+| Create a note       | `write_to_file`           | `write_to_file: c:\HQ\KB\30_Ideas\New Note.md`              |
+| Append to a note    | read-modify-write         | `view_file` → modify content → `write_to_file` (overwrite)  |
+| Move a note         | PowerShell `Move-Item`    | `Move-Item "source.md" "dest.md"`                            |
+| Rename a note       | PowerShell `Rename-Item`  | `Rename-Item "old.md" "new.md"` + grep for wikilink updates  |
+| Delete a note       | PowerShell `Remove-Item`  | `Remove-Item "note.md"`                                      |
+| Find backlinks      | `grep_search`             | `grep_search: Query="[[Note Title]]", SearchPath="c:\HQ\KB\"` |
+| Find notes by tag   | `grep_search`             | `grep_search: Query="tags:.*career", IsRegex=true`           |
+| Get file metadata   | PowerShell `Get-Item`     | `(Get-Item "note.md").LastWriteTime`                         |
 
-### CLI Conventions
+### Path Resolution
 
-- **File targeting**: Use `file=Title` (wikilink-style resolution) or `path=folder/file.md` (exact path)
-- **Output formats**: Most list commands support `format=json|tsv|csv` — prefer `format=json` for programmatic use
-- **Vault targeting**: Run CLI from within the vault directory, or use `vault=KB` as the first parameter. Prefer `vault=KB` for reliability since Antigravity's CWD may vary
-- **Multiline content**: Use `\n` for newlines in `content=` parameters
-- **Templates**: The `template=` parameter requires the Templates core plugin to be enabled with a configured template folder in Obsidian settings. If not configured, build note content in the `content=` parameter directly instead
+File-system tools require **full paths**, not note titles. To locate a note by title:
+1. `grep_search` for the filename pattern across `c:\HQ\KB\`
+2. `list_dir` to enumerate the target folder
+3. All vault paths start with `c:\HQ\KB\`
+
+### Trade-offs vs. CLI
+
+These operations have **reduced fidelity** compared to the CLI. This is acceptable:
+- **Backlinks**: `grep_search` for `[[Title]]` misses aliased links (`[[Title|Display]]`). Partial match is acceptable for discovery.
+- **Orphan detection**: Requires grepping for every note title — expensive. Use as a heuristic, not a guarantee.
+- **Move + link update**: When renaming (not just moving), manually `grep_search` for `[[old name]]` and update. Folder-only moves need no link updates (Obsidian resolves by filename).
 
 ## Wikilinks
 
 ### Syntax
 
 ```markdown
-[[Note Title]] # Basic link
-[[Note Title|Display Text]] # Link with alias
-[[Note Title#Heading]] # Link to a heading
+[[Note Title]]               # Basic link
+[[Note Title|Display Text]]  # Link with alias
+[[Note Title#Heading]]       # Link to a heading
 [[Note Title#Heading|Display]] # Heading link with alias
 ```
 
@@ -79,13 +71,12 @@ The Obsidian CLI (v1.12+) is the **preferred** way to interact with the vault fr
 - `[[My Note]]` matches `00_Inbox/My Note.md` or `30_Ideas/My Note.md`
 - If there are duplicate filenames, Obsidian uses the shortest path. Cortex should use full relative paths to avoid ambiguity: `[[subfolder/My Note]]`
 - Links are **case-insensitive** in Obsidian but preserve the case you type
-- **CLI equivalent**: `obsidian backlinks file="My Note"` returns all notes linking to it; `obsidian links file="My Note"` returns all outgoing links
 
 ### When Creating Links
 
 - Match the exact filename (minus `.md`) for the link target
 - Prefer the note's title as display text
-- Always verify the target note exists before suggesting a link — use `obsidian file file="Title"` to check
+- Always verify the target note exists before suggesting a link — use `grep_search` for the filename
 - If the target doesn't exist, Obsidian will show it as a "potential note" (greyed out in graph)
 
 ## Tags
@@ -107,7 +98,7 @@ tags: [productivity, career]
 - Tags go in the YAML frontmatter `tags:` array — NOT inline in the note body
 - Format: lowercase, hyphenated for multi-word (e.g., `personal-growth`)
 - Obsidian's Properties view will render these natively
-- **CLI**: Use `obsidian tags counts` to check existing tag usage
+- **Discovery**: Use `grep_search` with `Query="tags:"` to survey tag usage across the vault
 
 ### Standardized Tag Vocabulary
 
@@ -121,7 +112,7 @@ tags: [productivity, career]
 | `parenting`       | Kids, fatherhood                       |
 | `personal-growth` | Values, self-reflection, therapy       |
 
-When tagging a note, choose from this list first. Only create new tags if none of these fit. Use `obsidian tags counts sort=count` to see current usage.
+When tagging a note, choose from this list first. Only create new tags if none of these fit. Use `grep_search` to check current tag usage patterns.
 
 ## File Naming
 
@@ -134,10 +125,9 @@ When tagging a note, choose from this list first. Only create new tags if none o
 
 ### Deduplication
 
-- Before creating a file, check if a file with the same name exists
+- Before creating a file, check if a file with the same name exists via `grep_search` or `list_dir`
 - If collision: append a numeric suffix: `My Note 2.md`
 - Never overwrite existing notes silently
-- **CLI**: `obsidian create` will error if the file exists (unless `overwrite` flag is set)
 
 ## Frontmatter
 
@@ -193,13 +183,13 @@ section: content           # optional (general, content, specwright, cortex, bug
 ### Current Vault Layout
 
 ```
-C:\Workspace\Notepad\
+c:\HQ\KB\
 ├── 00_Inbox/            # Capture zone — unprocessed notes
 ├── 10_Projects/         # Actionable work (tasks, reminders, project items)
 ├── 20_Journal/          # Personal reflections, journals, values, people notes
 ├── 30_Ideas/            # Ideas, concepts, project seeds, explorations
 ├── 40_Knowledge/        # Reference material, business frameworks, career data
-├── 70_Finance/          # Financial data (accounts, imports, monthly)
+├── 50_Finance/          # Financial data (accounts, imports, monthly)
 ├── 99_System/           # System infrastructure (not regular notes)
 │   ├── Archive/         # Archived raw material, old research
 │   ├── Attachments/     # Images, files, media
@@ -214,55 +204,39 @@ C:\Workspace\Notepad\
 - **NEVER** modify `.stfolder` or `.stignore`
 - Numbered prefixes (`00_`, `10_`, etc.) control sort order
 - New folders require user confirmation
-- When moving notes, use `obsidian move` which auto-updates internal links
+- When moving notes, use PowerShell `Move-Item`. Since Obsidian resolves wikilinks by filename (not path), moving to a different folder does NOT require link updates.
 - Prefer flat folders with tags for sub-categorization over deep subfolder trees
 
 ## Moving Files
 
-### Preferred: Obsidian CLI
+### Preferred: PowerShell
 
-```bash
-# Move a note to a new folder (auto-updates links)
-obsidian move file="My Note" to="30_Ideas"
+```powershell
+# Move a note to a new folder (no link updates needed — Obsidian resolves by filename)
+Move-Item "c:\HQ\KB\00_Inbox\My Note.md" "c:\HQ\KB\30_Ideas\My Note.md"
 
-# Rename a note (auto-updates links)
-obsidian rename file="Old Title" name="New Title"
+# Rename a note (requires link updates)
+Rename-Item "c:\HQ\KB\30_Ideas\Old Title.md" "New Title.md"
+# Then: grep_search for [[Old Title]] across the vault and update references
 ```
-
-The CLI handles link updates automatically when Obsidian's "Automatically update internal links" setting is enabled.
-
-### Fallback: Raw Filesystem (when Obsidian is not running)
-
-1. Read the file content
-2. Write the file to the new location
-3. Delete the file from the old location
-4. Scan ALL other files in the vault for `[[wikilinks]]` that reference the moved file
-5. Update those links if the filename changed
 
 ### Important
 
 - Link updates only matter if the **filename** changes (not the folder) — Obsidian resolves by filename, not path.
 - If only the folder changes and the filename stays the same, no link updates are needed.
+- When renaming, scan the vault with `grep_search` for `[[Old Title]]` and update each reference.
 
 ## File Writing
 
-### Preferred: Obsidian CLI
+### Method: `write_to_file`
 
-```bash
-# Create with template
-obsidian create name="My Note" template=fleeting content="Extra content"
-
-# Append content
-obsidian append file="My Note" content="New paragraph"
-
-# Prepend after frontmatter
-obsidian prepend file="My Note" content="Added to top"
 ```
-
-### Fallback: Raw Filesystem
+write_to_file: c:\HQ\KB\{folder}\{title}.md
+```
 
 - UTF-8 encoding (standard for Obsidian)
 - Unix line endings (`\n`) preferred, but Windows (`\r\n`) is acceptable
+- For appending, use read-modify-write: `view_file` → modify → `write_to_file` (overwrite)
 
 ### Syncthing Compatibility
 

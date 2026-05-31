@@ -11,7 +11,7 @@ recommends_mcp: []
 
 > **Skill Reference**:
 >
-> - [obsidian-conventions](../skills/obsidian-conventions/SKILL.md) — File naming, tag format, vault path, CLI commands
+> - [obsidian-conventions](../skills/obsidian-conventions/SKILL.md) — File naming, tag format, vault path, vault structure
 
 ## When to Use
 
@@ -25,7 +25,7 @@ recommends_mcp: []
 // turbo-all
 
 1. **Read vault config** from `../config.md`:
-   - Get the vault path (`C:\Workspace\KB`) and inbox folder name (`00_Inbox`)
+   - Get the vault path (`c:\HQ\KB`) and inbox folder name (`00_Inbox`)
 
 2. **Parse the user's input**:
    - Extract the content (everything the user typed after `/cx-capture`)

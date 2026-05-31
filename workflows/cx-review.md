@@ -20,42 +20,38 @@ recommends_mcp: []
 - When you want to rediscover ideas you've forgotten
 - After a period of heavy capture, to integrate new notes with old
 
-## CLI Commands Used
+## Path Resolution
 
-```bash
-obsidian vault=KB files folder="30_Ideas"                # List files in a folder
-obsidian vault=KB file file="Note Title"                 # Get metadata (created, modified, size)
-obsidian vault=KB backlinks file="Note Title" total      # Count incoming links
-obsidian vault=KB links file="Note Title" total          # Count outgoing links
-obsidian vault=KB orphans                                # Notes with zero incoming links
-obsidian vault=KB deadends                               # Notes with zero outgoing links
-obsidian vault=KB read file="Note Title"                 # Read note content
-obsidian vault=KB tags file="Note Title"                 # Get note tags
-obsidian vault=KB append file="Note Title" content="..." # Add review notes
-```
+All vault paths start with `c:\HQ\KB\`. Use `list_dir` to enumerate folders and `view_file` to read notes.
 
 ## Steps
 
-1. **Read vault config** from `../config.md`
+1. **Scan the vault** via file-system tools (excluding `00_Inbox` and `99_System`):
 
-2. **Scan the vault** via CLI (excluding `00_Inbox` and `99_System`):
+   Use `list_dir` on each target folder to enumerate notes:
 
-   ```bash
-   obsidian vault=KB files ext=md                    # List all markdown files
-   obsidian vault=KB file file="Note Title"          # Get modified date per note
-   obsidian vault=KB backlinks file="Note Title" total  # Get link count per note
+   ```
+   list_dir: c:\HQ\KB\10_Projects
+   list_dir: c:\HQ\KB\20_Journal
+   list_dir: c:\HQ\KB\30_Ideas
+   list_dir: c:\HQ\KB\40_Knowledge
    ```
 
-   - Also check for orphans and dead-ends as priority candidates:
+   For each note, use PowerShell to get file metadata (modified date, size):
 
-   ```bash
-   obsidian vault=KB orphans    # High-priority: unlinked, forgotten notes
-   obsidian vault=KB deadends   # Notes that don't link out — potential to connect
+   ```powershell
+   Get-ChildItem "c:\HQ\KB\30_Ideas\*.md" | Select-Object Name, LastWriteTime, Length | Sort-Object LastWriteTime
    ```
+
+2. **Check for orphans** (notes with no incoming links — partial fidelity):
+
+   For candidate notes, `grep_search` for `[[Note Title]]` across the vault. Notes with zero hits are likely orphans.
+
+   > **Trade-off**: This misses aliased links (`[[Note|Display]]`) and can't replicate Obsidian's full link graph. Acceptable for review prioritization — orphan detection is a heuristic, not a guarantee.
 
 3. **Score and rank notes** for review priority:
    - **Recency weight**: Notes not modified in 30+ days rank higher
-   - **Connection weight**: Notes with more links are higher value (they connect ideas)
+   - **Connection weight**: Notes referenced by other notes are higher value
    - **Novelty weight**: Notes never reviewed before rank higher
    - **Orphan bonus**: Unlinked notes are prioritized for connection
    - **Exclude**: Notes modified in the last 7 days (too fresh)
@@ -73,10 +69,10 @@ obsidian vault=KB append file="Note Title" content="..." # Add review notes
    Start with #1?
    ```
 
-5. **For each note**, read via `obsidian read` and offer actions:
-   - **✏️ Update** — Edit the note (add context, refine wording, distill further) via `obsidian append`
+5. **For each note**, read via `view_file` and offer actions:
+   - **✏️ Update** — Edit the note (add context, refine wording, distill further) via read-modify-write with `write_to_file`
    - **🔗 Connect** — Run `/cx-connect` on this note to add links
-   - **✅ Mark reviewed** — Touch the file to reset the review clock
+   - **✅ Mark reviewed** — Touch the file to reset the review clock (PowerShell: `(Get-Item "path").LastWriteTime = Get-Date`)
    - **⏭️ Skip** — Move to the next note
 
 6. **Summary** after the session:

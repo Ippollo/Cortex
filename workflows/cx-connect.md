@@ -16,7 +16,7 @@ recommends_mcp: [sequential-thinking]
 > **Skill Reference**:
 >
 > - [pkm-methodology](../skills/pkm-methodology/SKILL.md) — Connection principles
-> - [obsidian-conventions](../skills/obsidian-conventions/SKILL.md) — Wikilink syntax, CLI commands
+> - [obsidian-conventions](../skills/obsidian-conventions/SKILL.md) — Wikilink syntax, vault structure
 
 ## When to Use
 
@@ -25,18 +25,12 @@ recommends_mcp: [sequential-thinking]
 - When reviewing an older note and wanting to enrich it
 - After adding several new notes on a topic
 
-## CLI Commands Used
+## Path Resolution
 
-```bash
-obsidian vault=KB read file="Note Title"                    # Read the target note
-obsidian vault=KB backlinks file="Note Title" format=json   # Find what links to it
-obsidian vault=KB links file="Note Title"                   # Find its outgoing links
-obsidian vault=KB tags file="Note Title"                    # Get its tags
-obsidian vault=KB search query="..." format=json            # Find content-similar notes
-obsidian vault=KB tag name="tagname" verbose                # Find notes sharing a tag
-obsidian vault=KB orphans                                   # Find unconnected notes
-obsidian vault=KB append file="Note Title" content="..."    # Add approved links
-```
+File-system tools require full paths, not note titles. To locate a note:
+1. If the user gives a title, use `grep_search` for the filename across `c:\HQ\KB\`
+2. If the user gives a folder, use `list_dir` on that folder
+3. All vault paths start with `c:\HQ\KB\`
 
 ## Steps
 
@@ -44,18 +38,18 @@ obsidian vault=KB append file="Note Title" content="..."    # Add approved links
    - If the user specifies a note: use that
    - If no note specified: ask which note to connect, or offer to scan recent additions
 
-2. **Read the target note** via CLI:
+2. **Read the target note** via `view_file`:
 
-   ```bash
-   obsidian vault=KB read file="Note Title"
+   ```
+   view_file: c:\HQ\KB\{folder}\{filename}.md
    ```
 
-3. **Scan the vault** for related notes using CLI:
-   - **Existing links**: `obsidian links file="Note Title"` — check what it already links to (avoid re-suggesting)
-   - **Backlinks**: `obsidian backlinks file="Note Title"` — see what already links to it
-   - **Tag overlap**: `obsidian tags file="Note Title"` → then `obsidian tag name="tagname" verbose` for each tag
-   - **Content similarity**: `obsidian vault=KB search query="key concepts from note" format=json` + AI semantic matching
-   - **Title matching**: `obsidian vault=KB search query="title keywords"` to find related titles
+3. **Scan the vault** for related notes using file-system tools:
+   - **Existing links**: Read the note content and extract any `[[wikilinks]]` already present (avoid re-suggesting)
+   - **Backlinks**: `grep_search` for `[[Note Title]]` across the vault to find what already links to it
+   - **Tag overlap**: Extract tags from the note's frontmatter, then `grep_search` for notes with the same tags
+   - **Content similarity**: `grep_search` for key concepts from the note + AI semantic matching on results
+   - **Title matching**: `grep_search` for title keywords to find related notes
 
 4. **Present suggestions** (ranked by relevance):
 
@@ -69,14 +63,11 @@ obsidian vault=KB append file="Note Title" content="..."    # Add approved links
    Approve (a)ll, approve (s)ome, or (n)one?
    ```
 
-5. **Add approved links** via CLI:
-
-   ```bash
-   obsidian vault=KB append file="Note Title" content="\n## Related\n- [[Building Agentic apps]]\n- [[The Perfect Work Day]]"
-   ```
-
-   - Append a `## Related` section to the note (if it doesn't have one)
+5. **Add approved links** via read-modify-write:
+   - Read the note with `view_file`
+   - Append a `## Related` section (if it doesn't have one)
    - Add each approved `[[wikilink]]` as a list item
+   - Write back with `write_to_file` (overwrite)
    - Optionally: add a reciprocal link in the connected note (ask user)
 
 6. **Report**: Show the updated note and confirm links were added

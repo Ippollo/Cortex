@@ -16,7 +16,7 @@ recommends_mcp: [sequential-thinking]
 > **Skill Reference**:
 >
 > - [pkm-methodology](../skills/pkm-methodology/SKILL.md) — MOC patterns
-> - [obsidian-conventions](../skills/obsidian-conventions/SKILL.md) — Wikilink format, file creation, CLI commands
+> - [obsidian-conventions](../skills/obsidian-conventions/SKILL.md) — Wikilink format, file creation
 
 ## When to Use
 
@@ -25,28 +25,24 @@ recommends_mcp: [sequential-thinking]
 - Before writing or presenting on a topic (build the map first)
 - When onboarding future-you (or others) to a topic
 
-## CLI Commands Used
+## Path Resolution
 
-```bash
-obsidian vault=KB search query="..." format=json          # Find notes related to topic
-obsidian vault=KB tag name="tagname" verbose               # Find notes sharing a tag
-obsidian vault=KB tags counts sort=count format=json       # Discover tag vocabulary
-obsidian vault=KB read file="Note Title"                   # Read candidate notes
-obsidian vault=KB backlinks file="Note Title" format=json  # Check note connectivity
-obsidian vault=KB orphans                                  # Find unconnected notes to include
-obsidian vault=KB create name="MOC - Topic" content="..."  # Create the MOC note
-obsidian vault=KB append file="MOC - Topic" content="..."  # Update existing MOC
-```
+All vault paths start with `c:\HQ\KB\`. Use `grep_search` to find notes by content or tags, `list_dir` to enumerate folders.
 
 ## Steps
 
 1. **Identify the topic** from the user's input
 
-2. **Scan the vault** for related notes using CLI:
+2. **Scan the vault** for related notes using file-system tools:
 
-   ```bash
-   obsidian vault=KB search query="productivity" format=json   # Content/title matches
-   obsidian vault=KB tag name="productivity" verbose            # Tag matches
+   ```
+   grep_search: Query="productivity", SearchPath="c:\HQ\KB\", MatchPerLine=true
+   ```
+
+   Also search by tag:
+
+   ```
+   grep_search: Query="tags:.*productivity", SearchPath="c:\HQ\KB\", IsRegex=true, MatchPerLine=true
    ```
 
    - Include notes from all folders (except `99_System`)
@@ -78,18 +74,31 @@ obsidian vault=KB append file="MOC - Topic" content="..."  # Update existing MOC
    Create this MOC?
    ```
 
-4. **Create or update the MOC** via CLI:
+4. **Create or update the MOC** via `write_to_file`:
 
-   ```bash
-   obsidian vault=KB create name="MOC - Productivity" content="---\ndate: YYYY-MM-DD\ntype: moc\ntags: [productivity]\n---\n\n# MOC - Productivity\n\n{grouped_links}" open
+   ```
+   write_to_file: c:\HQ\KB\99_System\MOC - Productivity.md
    ```
 
-   - Save to the user's chosen folder (suggest `40_Knowledge` or root)
-   - Falls back to `write_to_file` if Obsidian is not running
+   Content:
+   ```markdown
+   ---
+   date: YYYY-MM-DD
+   type: moc
+   tags: [productivity]
+   ---
+
+   # MOC - Productivity
+
+   {grouped_links}
+   ```
+
+   - Save to the user's chosen folder (suggest `99_System` or root)
 
 5. **Handle existing MOCs**:
-   - Check if a MOC for this topic exists: `obsidian vault=KB search query="MOC - Productivity"`
-   - If it exists, read it with `obsidian read`, show what's new, and offer to merge via `obsidian append`
+   - Check if a MOC for this topic exists: `grep_search` for `MOC - Productivity` in filenames
+   - If it exists, read it with `view_file`, show what's new, and offer to merge
+   - Update using read-modify-write with `write_to_file`
 
 ## Usage
 
