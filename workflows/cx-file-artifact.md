@@ -28,7 +28,7 @@ Artifacts that stay in `brain/` evaporate when the conversation ends. Artifacts 
 
 1. **Identify the artifact**:
    - If the user provides a path: use it directly
-   - If the user describes it vaguely (e.g., "the analysis from earlier"): list recent artifacts in the current `brain/{conversation-id}/` directory and ask which one
+   - If the user describes it vaguely (e.g., "the analysis from earlier"): list recent artifacts across all client `brain/` directories (e.g., `antigravity`, `antigravity-ide`, `antigravity-cli`) and ask which one
    - Read the artifact content via `view_file`
 
 2. **Determine vault target**:
