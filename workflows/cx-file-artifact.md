@@ -94,7 +94,7 @@ Artifacts that stay in `brain/` evaporate when the conversation ends. Artifacts 
 /cx-file-artifact the Karpathy knowledge base analysis
 → Agent locates the matching artifact and proceeds
 
-/cx-file-artifact C:\Users\Chris\.gemini\antigravity-ide\brain\9aee74df-...\analysis_karpathy.md
+/cx-file-artifact <USER_PROFILE>\.gemini\antigravity-ide\brain\9aee74df-...\analysis_karpathy.md
 → Agent uses the explicit path
 ```
 

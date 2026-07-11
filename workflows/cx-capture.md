@@ -62,7 +62,7 @@ recommends_mcp: []
 
 ```bash
 # Decision pattern
-/cx-capture Decision: Use Flash for routine tasks. Context: Token cost analysis. Owner: Chris.
+/cx-capture Decision: Use Flash for routine tasks. Context: Token cost analysis. Owner: Alice.
 
 # Meeting pattern
 /cx-capture Meeting with design team about dashboard. Key points: cut three panels. Action items: send API spec.
@@ -71,7 +71,7 @@ recommends_mcp: []
 /cx-capture Insight: Onboarding flow assumes users know permissions. Triggered by: watching UX test.
 
 # Person pattern
-/cx-capture Marcus — mentioned he wants to move to the platform team.
+/cx-capture Bob — mentioned he wants to move to the platform team.
 
 # AI Save pattern
 /cx-capture Saving from Claude: Framework for evaluating vendor proposals (score on integration effort).

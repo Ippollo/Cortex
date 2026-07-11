@@ -12,3 +12,7 @@ desktop.ini
 # Obsidian (vault config should not be in this repo)
 .obsidian/
 .trash/
+
+# Reports and Data
+*.csv
+*-report.*

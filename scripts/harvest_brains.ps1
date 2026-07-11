@@ -2,7 +2,7 @@
 # Sweeps Antigravity client brain folders for AI artifacts and copies them to Obsidian KB
 
 $obsidianInbox = "c:\HQ\KB\00_Inbox"
-$geminiDir = "C:\Users\Chris\.gemini"
+$geminiDir = Join-Path $env:USERPROFILE ".gemini"
 $clients = @("antigravity", "antigravity-ide", "antigravity-cli")
 
 # Ensure inbox exists
