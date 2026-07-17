@@ -92,7 +92,7 @@ When deciding where to file a note, use these guidelines:
 | ---------------------------------- | ---------------- | ----------------- |
 | Raw capture, unsorted thought      | `00_Inbox`       | Needs processing  |
 | Actionable task, to-do, reminder   | `10_Projects`    | Work to be done   |
-| Personal reflection, journal entry | `20_Journal`     | Self-oriented     |
+| Personal reflection, journal entry | 🔒 `20_Journal`  | Self-oriented — **read-only zone**: suggest, never auto-file; write only on explicit user approval |
 | Business idea, project concept     | `30_Ideas`       | Forward-looking   |
 | Reference material, how-tos        | `40_Knowledge`   | Backward-looking  |
 

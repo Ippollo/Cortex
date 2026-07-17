@@ -21,7 +21,7 @@ Rules and patterns for working with an Obsidian vault. All agents and workflows 
 
 All vault operations use **file-system tools exclusively**. The Obsidian CLI is deprecated due to reliability issues (hanging on commands).
 
-> **Reference**: See `c:\HQ\vault-manual.md` for the authoritative vault access rules and `c:\HQ\decisions.md` for the deprecation rationale.
+> **Reference**: See `c:\HQ\KB\99_System\vault-manual.md` for the authoritative vault access rules and `c:\HQ\KB\99_System\decisions.md` for the deprecation rationale.
 
 ### Tool Mapping
 
@@ -186,10 +186,10 @@ section: content           # optional (general, content, specwright, cortex, bug
 c:\HQ\KB\
 ├── 00_Inbox/            # Capture zone — unprocessed notes
 ├── 10_Projects/         # Actionable work (tasks, reminders, project items)
-├── 20_Journal/          # Personal reflections, journals, values, people notes
+├── 20_Journal/          # 🔒 READ-ONLY — personal reflections, journals, values, people notes
 ├── 30_Ideas/            # Ideas, concepts, project seeds, explorations
 ├── 40_Knowledge/        # Reference material, business frameworks, career data
-├── 50_Finance/          # Financial data (accounts, imports, monthly)
+├── 50_Finance/          # 🔒 READ-ONLY — financial data (accounts, imports, monthly)
 ├── 99_System/           # System infrastructure (not regular notes)
 │   ├── Archive/         # Archived raw material, old research
 │   ├── Attachments/     # Images, files, media

@@ -60,8 +60,9 @@ recommends_mcp: [sequential-thinking]
    - Notes with `type: task` already set → `10_Projects` (just add `status: todo` if missing, then move)
    - Notes with clear action verbs in title AND a "Done-When" or checklist section → `10_Projects`
    - Bare captures that are exact duplicates of existing notes (title match) → flag for discard
-   - Notes with `tags: [decision]` → root vault (`decisions.md` append if applicable) or `10_Projects`
-   - Notes with `tags: [meeting]` → `20_Journal`
+   - Notes with `tags: [decision]` → append to `99_System/decisions.md` if applicable, else `10_Projects`
+   - Notes with `tags: [meeting]` → `20_Journal` — **🔒 read-only zone**: never auto-file. Mark the
+     row `🔒` in the batch table so the user sees it explicitly; file only on explicit approval.
 
    **Tier 2 — AI judgment needed**:
    - Notes with mixed signals (reference content + embedded actions)
@@ -76,6 +77,11 @@ recommends_mcp: [sequential-thinking]
    | 1 | Fix the bug | Auto | 📁 File (task) | 10_Projects |
    | 2 | Karpathy analysis | AI | 📁 File (action) | 10_Projects |
    | 3 | Old reminder | Auto | 🗑️ Discard | — |
+   | 4 | Standup notes | Auto | 📁 File (meeting) | 🔒 20_Journal |
+
+   Any destination in a **read-only zone** (`20_Journal`, `50_Finance`) must carry the `🔒` marker.
+   These are never auto-filed — they require the user's explicit approval, per
+   `KB/99_System/vault-manual.md`.
    ```
 
    - For Tier 2 notes, include a brief rationale (1 sentence)

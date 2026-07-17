@@ -40,10 +40,16 @@ Artifacts that stay in `brain/` evaporate when the conversation ends. Artifacts 
    | Research analysis, comparisons, technical evaluations | `40_Knowledge/` |
    | Ideas, explorations, "what if" thinking | `30_Ideas/` |
    | Plans, decisions, project strategy | `10_Projects/` |
-   | Reflections, lessons learned | `20_Journal/` |
+   | Reflections, lessons learned | 🔒 `20_Journal/` |
    | Reference material (frameworks, patterns) | `40_Knowledge/` |
 
    When uncertain, ask the user. Default to `40_Knowledge/` for AI-generated analysis.
+
+   > **🔒 Read-only zone guard.** `20_Journal/` and `50_Finance/` are protected. Never file there
+   > on your own initiative — even when the routing table points that way. State the destination
+   > explicitly ("This reads as a reflection → 🔒 `20_Journal/`, a read-only zone — file it there?")
+   > and write **only** after the user approves. If they decline, default to `40_Knowledge/`.
+   > Approval is per-operation. See `KB/99_System/vault-manual.md`.
 
 3. **Generate a clean title**:
    - Derive from the artifact's `#` heading or a summary of the content
