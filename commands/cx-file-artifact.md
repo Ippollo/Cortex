@@ -1,5 +1,6 @@
 ---
 description: File a conversation artifact (analysis, research, synthesis) from the Antigravity brain/ directory into the Obsidian vault so insights compound rather than evaporate.
+disable-model-invocation: true
 ---
 
 # /cx-file-artifact - File Artifact to Vault

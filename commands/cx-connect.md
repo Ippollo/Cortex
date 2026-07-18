@@ -1,5 +1,6 @@
 ---
 description: AI-powered semantic wikilinking.
+disable-model-invocation: true
 ---
 
 # /cx-connect - Connect Notes

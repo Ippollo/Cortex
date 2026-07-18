@@ -1,5 +1,6 @@
 ---
 description: Search the vault.
+disable-model-invocation: true
 ---
 
 # /cx-search - Vault Search

@@ -1,5 +1,6 @@
 ---
 description: Sweep and harvest markdown artifacts from all Antigravity client directories into the Obsidian KB inbox.
+disable-model-invocation: true
 ---
 
 # /cx-harvest - Harvest Brain Artifacts

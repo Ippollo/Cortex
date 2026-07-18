@@ -1,5 +1,6 @@
 ---
 description: Generate or update a Map of Content (MOC).
+disable-model-invocation: true
 ---
 
 # /cx-map - Map of Content

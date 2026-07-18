@@ -1,5 +1,6 @@
 ---
 description: Surface older notes for review.
+disable-model-invocation: true
 ---
 
 # /cx-review - Review for Retention

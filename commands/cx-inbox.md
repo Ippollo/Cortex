@@ -1,5 +1,6 @@
 ---
 description: Process inbox items.
+disable-model-invocation: true
 ---
 
 # /cx-inbox - Process Inbox

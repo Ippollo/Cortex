@@ -1,5 +1,6 @@
 ---
 description: Instant note capture to Obsidian inbox.
+disable-model-invocation: true
 ---
 
 # /cx-capture - Quick Capture

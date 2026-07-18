@@ -1,5 +1,6 @@
 ---
 description: Combine notes into a higher-level insight.
+disable-model-invocation: true
 ---
 
 # /cx-synthesize - Synthesize Notes
