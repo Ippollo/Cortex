@@ -4,7 +4,7 @@
 > `specwright/changes/hq-plugin-migration/kb-access-contract.md` for the full schema and the
 > logical-location convention shared across all HQ plugins.
 
-- **Vault Path** (`vault_root`): c:\HQ\KB
+- **Vault Path** (`vault_root`): C:\Projects\KB
 - **Vault Name**: KB
 - **Inbox Folder**: 00_Inbox
 - **Daily Notes Folder**: 20_Journal
