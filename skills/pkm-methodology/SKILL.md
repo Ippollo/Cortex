@@ -1,15 +1,6 @@
 ---
-name: PKM Methodology
-description: Personal Knowledge Management principles — Zettelkasten, Progressive Summarization, Maps of Content. Loaded when agents need to make decisions about note quality, filing, or knowledge structure.
-version: 1.0.0
-triggers:
-  - knowledge management
-  - note quality
-  - zettelkasten
-  - filing decisions
-  - note types
-metadata:
-  pattern: tool-wrapper
+name: pkm-methodology
+description: Personal Knowledge Management principles — Zettelkasten, Progressive Summarization, Maps of Content. Use when making decisions about note quality, filing, knowledge structure, or which note type fits.
 ---
 
 # PKM Methodology

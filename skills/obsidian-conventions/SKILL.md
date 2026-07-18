@@ -1,16 +1,6 @@
 ---
-name: Obsidian Conventions
-description: Obsidian vault file format, wikilink syntax, tag conventions, and vault structure rules. Loaded when agents create or modify files in the vault.
-version: 4.0.0
-triggers:
-  - obsidian
-  - wikilink
-  - vault
-  - tag format
-  - note format
-  - file naming
-metadata:
-  pattern: tool-wrapper
+name: obsidian-conventions
+description: Obsidian vault conventions — file format, wikilink syntax, tag conventions, note-type rules, file naming, and vault structure. Use whenever creating or modifying notes in the KB vault, or deciding how a note should be formatted, named, or filed.
 ---
 
 # Obsidian Conventions
@@ -21,31 +11,31 @@ Rules and patterns for working with an Obsidian vault. All agents and workflows 
 
 All vault operations use **file-system tools exclusively**. The Obsidian CLI is deprecated due to reliability issues (hanging on commands).
 
-> **Reference**: See `c:\HQ\KB\99_System\vault-manual.md` for the authoritative vault access rules and `c:\HQ\KB\99_System\decisions.md` for the deprecation rationale.
+> **Reference**: See `{vault_root}\99_System\vault-manual.md` for the authoritative vault access rules and `{vault_root}\99_System\decisions.md` for the deprecation rationale.
 
 ### Tool Mapping
 
 | Operation           | Tool                      | Example                                                      |
 | ------------------- | ------------------------- | ------------------------------------------------------------ |
-| Read a note         | `view_file`               | `view_file: c:\HQ\KB\30_Ideas\My Note.md`                   |
-| Search vault        | `grep_search`             | `grep_search: Query="productivity", SearchPath="c:\HQ\KB\"` |
+| Read a note         | `view_file`               | `view_file: {vault_root}\30_Ideas\My Note.md`                   |
+| Search vault        | `grep_search`             | `grep_search: Query="productivity", SearchPath="{vault_root}\"` |
 | Search with context | `grep_search`             | `grep_search: Query="...", MatchPerLine=true`                |
-| List files          | `list_dir`                | `list_dir: c:\HQ\KB\00_Inbox`                               |
-| Create a note       | `write_to_file`           | `write_to_file: c:\HQ\KB\30_Ideas\New Note.md`              |
+| List files          | `list_dir`                | `list_dir: {vault_root}\00_Inbox`                               |
+| Create a note       | `write_to_file`           | `write_to_file: {vault_root}\30_Ideas\New Note.md`              |
 | Append to a note    | read-modify-write         | `view_file` → modify content → `write_to_file` (overwrite)  |
 | Move a note         | PowerShell `Move-Item`    | `Move-Item "source.md" "dest.md"`                            |
 | Rename a note       | PowerShell `Rename-Item`  | `Rename-Item "old.md" "new.md"` + grep for wikilink updates  |
 | Delete a note       | PowerShell `Remove-Item`  | `Remove-Item "note.md"`                                      |
-| Find backlinks      | `grep_search`             | `grep_search: Query="[[Note Title]]", SearchPath="c:\HQ\KB\"` |
+| Find backlinks      | `grep_search`             | `grep_search: Query="[[Note Title]]", SearchPath="{vault_root}\"` |
 | Find notes by tag   | `grep_search`             | `grep_search: Query="tags:.*career", IsRegex=true`           |
 | Get file metadata   | PowerShell `Get-Item`     | `(Get-Item "note.md").LastWriteTime`                         |
 
 ### Path Resolution
 
 File-system tools require **full paths**, not note titles. To locate a note by title:
-1. `grep_search` for the filename pattern across `c:\HQ\KB\`
+1. `grep_search` for the filename pattern across `{vault_root}\`
 2. `list_dir` to enumerate the target folder
-3. All vault paths start with `c:\HQ\KB\`
+3. All vault paths start with `{vault_root}\`
 
 ### Trade-offs vs. CLI
 
@@ -183,7 +173,7 @@ section: content           # optional (general, content, specwright, cortex, bug
 ### Current Vault Layout
 
 ```
-c:\HQ\KB\
+{vault_root}\
 ├── 00_Inbox/            # Capture zone — unprocessed notes
 ├── 10_Projects/         # Actionable work (tasks, reminders, project items)
 ├── 20_Journal/          # 🔒 READ-ONLY — personal reflections, journals, values, people notes
@@ -213,10 +203,10 @@ c:\HQ\KB\
 
 ```powershell
 # Move a note to a new folder (no link updates needed — Obsidian resolves by filename)
-Move-Item "c:\HQ\KB\00_Inbox\My Note.md" "c:\HQ\KB\30_Ideas\My Note.md"
+Move-Item "{vault_root}\00_Inbox\My Note.md" "{vault_root}\30_Ideas\My Note.md"
 
 # Rename a note (requires link updates)
-Rename-Item "c:\HQ\KB\30_Ideas\Old Title.md" "New Title.md"
+Rename-Item "{vault_root}\30_Ideas\Old Title.md" "New Title.md"
 # Then: grep_search for [[Old Title]] across the vault and update references
 ```
 
@@ -231,7 +221,7 @@ Rename-Item "c:\HQ\KB\30_Ideas\Old Title.md" "New Title.md"
 ### Method: `write_to_file`
 
 ```
-write_to_file: c:\HQ\KB\{folder}\{title}.md
+write_to_file: {vault_root}\{folder}\{title}.md
 ```
 
 - UTF-8 encoding (standard for Obsidian)

@@ -11,6 +11,17 @@
 - **Default Tags**: (none)
 - **Access Method** (`access_method`): filesystem  <!-- future: kb-mcp (Option B) -->
 
+> **`{vault_root}` token.** Commands and skills refer to the vault as `{vault_root}` and never
+> hardcode an absolute path. Resolve it to the **Vault Path** value above. This line is the
+> **single** place the machine-specific path lives — change it here to point the whole plugin at a
+> different vault (or run `cowork-plugin-customizer` when sharing).
+>
+> **`{plugin_root}` token.** Commands refer to this plugin's own bundled files (e.g.
+> `{plugin_root}\scripts\harvest_brains.ps1`) relative to the plugin's install directory — never
+> an absolute install path. When installed, this is the plugin's root (Claude Code exposes it as
+> `${CLAUDE_PLUGIN_ROOT}`; **verify the exact variable at install-test, T13**). Pre-install, it
+> resolves to the `cortex/` directory.
+
 ## Logical Folder Map
 
 Skills reference logical names; the contract resolves them to folders under `vault_root`.
@@ -42,9 +53,9 @@ Sub-locations use `/` (e.g. `{knowledge}/jobs` → `40_Knowledge/jobs`).
 ## Vault Access
 
 - **Method**: File-system tools exclusively (`view_file`, `grep_search`, `list_dir`, `write_to_file`)
-- **Obsidian CLI**: Deprecated — do not use. See `c:\HQ\KB\99_System\decisions.md` for rationale.
-- **Read notes**: `view_file` with full path (`c:\HQ\KB\{folder}\{filename}.md`)
-- **Search notes**: `grep_search` with `SearchPath="c:\HQ\KB\"`
+- **Obsidian CLI**: Deprecated — do not use. See `{vault_root}\99_System\decisions.md` for rationale.
+- **Read notes**: `view_file` with full path (`{vault_root}\{folder}\{filename}.md`)
+- **Search notes**: `grep_search` with `SearchPath="{vault_root}\"`
 - **List notes**: `list_dir` on vault folders
 - **Create/edit notes**: `write_to_file` with full path
 - **Move notes**: PowerShell `Move-Item` (no link updates needed — Obsidian resolves by filename)

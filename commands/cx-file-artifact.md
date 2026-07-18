@@ -1,8 +1,5 @@
 ---
 description: File a conversation artifact (analysis, research, synthesis) from the Antigravity brain/ directory into the Obsidian vault so insights compound rather than evaporate.
-quick_summary: "Bridge brain/{id}/ → KB vault. File outputs so every query enriches the knowledge base."
-requires_mcp: []
-recommends_mcp: []
 ---
 
 # /cx-file-artifact - File Artifact to Vault
@@ -73,12 +70,12 @@ Artifacts that stay in `brain/` evaporate when the conversation ends. Artifacts 
    - Remove implementation plan boilerplate that's irrelevant outside the conversation context
 
 6. **Check for collisions**:
-   - Use `grep_search` to search for the title across `c:\HQ\KB\` to verify it doesn't already exist
+   - Use `grep_search` to search for the title across `{vault_root}\` to verify it doesn't already exist
    - If collision: append ` 2` or add more specificity to the title
 
 7. **Write the note** via `write_to_file`:
    ```
-   write_to_file: c:\HQ\KB\{folder}\{title}.md
+   write_to_file: {vault_root}\{folder}\{title}.md
    ```
 
 8. **Connect to related notes** (optional but recommended):

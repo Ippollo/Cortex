@@ -1,8 +1,5 @@
 ---
 description: Sweep and harvest markdown artifacts from all Antigravity client directories into the Obsidian KB inbox.
-quick_summary: "Harvest brain/ directories -> KB vault 00_Inbox with #ai-harvest tag."
-requires_mcp: []
-recommends_mcp: []
 ---
 
 # /cx-harvest - Harvest Brain Artifacts
@@ -20,11 +17,11 @@ recommends_mcp: []
 1. **Run the harvest script**:
    Execute the PowerShell script:
    ```powershell
-   powershell -File c:\HQ\cortex\scripts\harvest_brains.ps1
+   powershell -File {plugin_root}\scripts\harvest_brains.ps1
    ```
 
 2. **Verify imported files**:
-   - Check `c:\HQ\KB\00_Inbox/` for any newly added notes.
+   - Check `{vault_root}\00_Inbox/` for any newly added notes.
    - Files will be prefixed/tagged with:
      - `tags: [ai-harvest]`
      - `ai_client: <client-name>`
@@ -32,12 +29,12 @@ recommends_mcp: []
 
 3. **Run encoding validation gate** (required — do not skip):
    ```powershell
-   powershell -File c:\HQ\cortex\scripts\validate-encoding.ps1 -Path "c:\HQ\KB\00_Inbox"
+   powershell -File {plugin_root}\scripts\validate-encoding.ps1 -Path "{vault_root}\00_Inbox"
    ```
    - If exit code **0** → files are clean, proceed to Step 4.
    - If exit code **1** → encoding issues detected. Run the fixer before filing:
      ```powershell
-     powershell -File c:\HQ\cortex\scripts\fix-encoding.ps1 -Path "c:\HQ\KB\00_Inbox" -Apply
+     powershell -File {plugin_root}\scripts\fix-encoding.ps1 -Path "{vault_root}\00_Inbox" -Apply
      ```
    This prevents mojibake from being silently filed as corrupt content in the vault.
 

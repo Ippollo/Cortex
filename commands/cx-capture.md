@@ -1,8 +1,5 @@
 ---
 description: Instant note capture to Obsidian inbox.
-quick_summary: "Capture a thought → timestamped markdown in vault inbox. Zero friction."
-requires_mcp: []
-recommends_mcp: []
 ---
 
 # /cx-capture - Quick Capture
@@ -25,7 +22,7 @@ recommends_mcp: []
 // turbo-all
 
 1. **Read vault config** from `../config.md`:
-   - Get the vault path (`c:\HQ\KB`) and inbox folder name (`00_Inbox`)
+   - Get the vault path (`{vault_root}`) and inbox folder name (`00_Inbox`)
 
 2. **Parse the user's input**:
    - Extract the content (everything the user typed after `/cx-capture`)

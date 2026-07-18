@@ -1,8 +1,5 @@
 ---
 description: AI-powered semantic wikilinking.
-quick_summary: "Scan vault for related notes → suggest [[wikilinks]] → user approves each."
-requires_mcp: []
-recommends_mcp: [sequential-thinking]
 ---
 
 # /cx-connect - Connect Notes
@@ -27,10 +24,12 @@ recommends_mcp: [sequential-thinking]
 
 ## Path Resolution
 
+> resolve `{vault_root}` from `config.md` (the plugin's **Vault Path**). Never hardcode an absolute path.
+
 File-system tools require full paths, not note titles. To locate a note:
-1. If the user gives a title, use `grep_search` for the filename across `c:\HQ\KB\`
+1. If the user gives a title, use `grep_search` for the filename across `{vault_root}\`
 2. If the user gives a folder, use `list_dir` on that folder
-3. All vault paths start with `c:\HQ\KB\`
+3. All vault paths start with `{vault_root}\`
 
 ## Steps
 
@@ -41,7 +40,7 @@ File-system tools require full paths, not note titles. To locate a note:
 2. **Read the target note** via `view_file`:
 
    ```
-   view_file: c:\HQ\KB\{folder}\{filename}.md
+   view_file: {vault_root}\{folder}\{filename}.md
    ```
 
 3. **Scan the vault** for related notes using file-system tools:

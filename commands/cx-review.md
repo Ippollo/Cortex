@@ -1,8 +1,5 @@
 ---
 description: Surface older notes for review.
-quick_summary: "Surface 3-5 forgotten notes → review, update, connect, or mark as reviewed."
-requires_mcp: []
-recommends_mcp: []
 ---
 
 # /cx-review - Review for Retention
@@ -22,7 +19,9 @@ recommends_mcp: []
 
 ## Path Resolution
 
-All vault paths start with `c:\HQ\KB\`. Use `list_dir` to enumerate folders and `view_file` to read notes.
+> resolve `{vault_root}` from `config.md` (the plugin's **Vault Path**). Never hardcode an absolute path.
+
+All vault paths start with `{vault_root}\`. Use `list_dir` to enumerate folders and `view_file` to read notes.
 
 ## Steps
 
@@ -31,16 +30,16 @@ All vault paths start with `c:\HQ\KB\`. Use `list_dir` to enumerate folders and 
    Use `list_dir` on each target folder to enumerate notes:
 
    ```
-   list_dir: c:\HQ\KB\10_Projects
-   list_dir: c:\HQ\KB\20_Journal
-   list_dir: c:\HQ\KB\30_Ideas
-   list_dir: c:\HQ\KB\40_Knowledge
+   list_dir: {vault_root}\10_Projects
+   list_dir: {vault_root}\20_Journal
+   list_dir: {vault_root}\30_Ideas
+   list_dir: {vault_root}\40_Knowledge
    ```
 
    For each note, use PowerShell to get file metadata (modified date, size):
 
    ```powershell
-   Get-ChildItem "c:\HQ\KB\30_Ideas\*.md" | Select-Object Name, LastWriteTime, Length | Sort-Object LastWriteTime
+   Get-ChildItem "{vault_root}\30_Ideas\*.md" | Select-Object Name, LastWriteTime, Length | Sort-Object LastWriteTime
    ```
 
 2. **Check for orphans** (notes with no incoming links — partial fidelity):

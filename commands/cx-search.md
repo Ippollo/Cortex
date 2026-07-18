@@ -1,8 +1,5 @@
 ---
 description: Search the vault.
-quick_summary: "Search vault by keyword + AI semantic matching → display results with previews."
-requires_mcp: []
-recommends_mcp: []
 ---
 
 # /cx-search - Vault Search
@@ -22,7 +19,9 @@ recommends_mcp: []
 
 ## Path Resolution
 
-All vault paths start with `c:\HQ\KB\`. File-system tools require full paths. Use `grep_search` with the vault root as the search path.
+> resolve `{vault_root}` from `config.md` (the plugin's **Vault Path**). Never hardcode an absolute path.
+
+All vault paths start with `{vault_root}\`. File-system tools require full paths. Use `grep_search` with the vault root as the search path.
 
 ## Steps
 
@@ -33,7 +32,7 @@ All vault paths start with `c:\HQ\KB\`. File-system tools require full paths. Us
    a. **Full-text search** with line context:
 
    ```
-   grep_search: Query="productivity", SearchPath="c:\HQ\KB\", MatchPerLine=true
+   grep_search: Query="productivity", SearchPath="{vault_root}\", MatchPerLine=true
    ```
 
    Returns file paths, line numbers, and matching content for all hits.
@@ -41,7 +40,7 @@ All vault paths start with `c:\HQ\KB\`. File-system tools require full paths. Us
    b. **Tag match**:
 
    ```
-   grep_search: Query="productivity", SearchPath="c:\HQ\KB\", Includes=["*.md"], MatchPerLine=true
+   grep_search: Query="productivity", SearchPath="{vault_root}\", Includes=["*.md"], MatchPerLine=true
    ```
 
    Filter results for `tags:` frontmatter lines to find notes tagged with the concept.
@@ -76,7 +75,7 @@ All vault paths start with `c:\HQ\KB\`. File-system tools require full paths. Us
 
 5. **On selection**: Read and display the full note:
    ```
-   view_file: c:\HQ\KB\{folder}\{filename}.md
+   view_file: {vault_root}\{folder}\{filename}.md
    ```
 
 ## Usage

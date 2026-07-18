@@ -1,8 +1,5 @@
 ---
 description: Combine notes into a higher-level insight.
-quick_summary: "Find related notes → read all → produce synthesis with [[wikilink]] attribution."
-requires_mcp: []
-recommends_mcp: [sequential-thinking]
 ---
 
 # /cx-synthesize - Synthesize Notes
@@ -27,7 +24,9 @@ recommends_mcp: [sequential-thinking]
 
 ## Path Resolution
 
-All vault paths start with `c:\HQ\KB\`. Use `grep_search` to find notes by content or tags, `list_dir` to enumerate folders.
+> resolve `{vault_root}` from `config.md` (the plugin's **Vault Path**). Never hardcode an absolute path.
+
+All vault paths start with `{vault_root}\`. Use `grep_search` to find notes by content or tags, `list_dir` to enumerate folders.
 
 ## Steps
 
@@ -36,13 +35,13 @@ All vault paths start with `c:\HQ\KB\`. Use `grep_search` to find notes by conte
    - Search the vault for related notes:
 
    ```
-   grep_search: Query="productivity", SearchPath="c:\HQ\KB\", MatchPerLine=true
+   grep_search: Query="productivity", SearchPath="{vault_root}\", MatchPerLine=true
    ```
 
    Also search by tag:
 
    ```
-   grep_search: Query="tags:.*productivity", SearchPath="c:\HQ\KB\", IsRegex=true, MatchPerLine=true
+   grep_search: Query="tags:.*productivity", SearchPath="{vault_root}\", IsRegex=true, MatchPerLine=true
    ```
 
 2. **Present source notes**:
@@ -62,8 +61,8 @@ All vault paths start with `c:\HQ\KB\`. Use `grep_search` to find notes by conte
 3. **Read all selected source notes** via `view_file`:
 
    ```
-   view_file: c:\HQ\KB\20_Journal\My Productivity Workflow.md
-   view_file: c:\HQ\KB\20_Journal\The Perfect Work Day.md
+   view_file: {vault_root}\20_Journal\My Productivity Workflow.md
+   view_file: {vault_root}\20_Journal\The Perfect Work Day.md
    # ... etc (issue all reads in parallel)
    ```
 
@@ -84,7 +83,7 @@ All vault paths start with `c:\HQ\KB\`. Use `grep_search` to find notes by conte
 7. **Save on confirmation** via `write_to_file`:
 
    ```
-   write_to_file: c:\HQ\KB\30_Ideas\Synthesis - Productivity.md
+   write_to_file: {vault_root}\30_Ideas\Synthesis - Productivity.md
    ```
 
    Content:

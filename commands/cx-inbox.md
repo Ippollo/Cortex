@@ -1,8 +1,5 @@
 ---
 description: Process inbox items.
-quick_summary: "Batch-read inbox notes, auto-file obvious cases, surface ambiguous ones for decision."
-requires_mcp: []
-recommends_mcp: [sequential-thinking]
 ---
 
 # /cx-inbox - Process Inbox
@@ -43,7 +40,7 @@ recommends_mcp: [sequential-thinking]
 1. **List inbox contents** via `list_dir`:
 
    ```
-   list_dir: c:\HQ\KB\00_Inbox
+   list_dir: {vault_root}\00_Inbox
    ```
 
    - Report count: "📥 **{N} notes** in inbox"
@@ -98,7 +95,7 @@ recommends_mcp: [sequential-thinking]
    a. **Frontmatter updates** (all at once, using PowerShell):
    ```powershell
    # For action items needing type/status update:
-   (Get-Content "c:\HQ\KB\00_Inbox\note.md" -Raw) -replace 'type: fleeting', "type: action`nstatus: todo" | Set-Content "c:\HQ\KB\00_Inbox\note.md"
+   (Get-Content "{vault_root}\00_Inbox\note.md" -Raw) -replace 'type: fleeting', "type: action`nstatus: todo" | Set-Content "{vault_root}\00_Inbox\note.md"
    ```
 
    b. **Connection pass** (only for notes the user requested connections):
@@ -107,12 +104,12 @@ recommends_mcp: [sequential-thinking]
 
    c. **Move pass** (all moves via PowerShell):
    ```powershell
-   Move-Item "c:\HQ\KB\00_Inbox\Note Title.md" "c:\HQ\KB\10_Projects\Note Title.md"
+   Move-Item "{vault_root}\00_Inbox\Note Title.md" "{vault_root}\10_Projects\Note Title.md"
    ```
 
    d. **Discard pass** (all discards, with confirmation):
    ```powershell
-   Remove-Item "c:\HQ\KB\00_Inbox\Note Title.md"
+   Remove-Item "{vault_root}\00_Inbox\Note Title.md"
    ```
 
 7. **Summary**: Report what was done:

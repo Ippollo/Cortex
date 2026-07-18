@@ -7,7 +7,7 @@ Cortex is the thinking layer of your personal operating system. It eliminates th
 ## Prerequisites
 
 - **Obsidian** installed for UI browsing, graph view, and sync
-- Vault directory accessible via filesystem (`c:\HQ\KB\`)
+- Vault directory accessible via filesystem (`{vault_root}\`)
 - Cortex added to your IDE workspace
 
 ## How It Works

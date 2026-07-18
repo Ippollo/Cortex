@@ -1,8 +1,5 @@
 ---
 description: Generate or update a Map of Content (MOC).
-quick_summary: "Scan vault for topic → create structured MOC with grouped [[wikilinks]]."
-requires_mcp: []
-recommends_mcp: [sequential-thinking]
 ---
 
 # /cx-map - Map of Content
@@ -27,7 +24,9 @@ recommends_mcp: [sequential-thinking]
 
 ## Path Resolution
 
-All vault paths start with `c:\HQ\KB\`. Use `grep_search` to find notes by content or tags, `list_dir` to enumerate folders.
+> resolve `{vault_root}` from `config.md` (the plugin's **Vault Path**). Never hardcode an absolute path.
+
+All vault paths start with `{vault_root}\`. Use `grep_search` to find notes by content or tags, `list_dir` to enumerate folders.
 
 ## Steps
 
@@ -36,13 +35,13 @@ All vault paths start with `c:\HQ\KB\`. Use `grep_search` to find notes by conte
 2. **Scan the vault** for related notes using file-system tools:
 
    ```
-   grep_search: Query="productivity", SearchPath="c:\HQ\KB\", MatchPerLine=true
+   grep_search: Query="productivity", SearchPath="{vault_root}\", MatchPerLine=true
    ```
 
    Also search by tag:
 
    ```
-   grep_search: Query="tags:.*productivity", SearchPath="c:\HQ\KB\", IsRegex=true, MatchPerLine=true
+   grep_search: Query="tags:.*productivity", SearchPath="{vault_root}\", IsRegex=true, MatchPerLine=true
    ```
 
    - Include notes from all folders (except `99_System`)
@@ -77,7 +76,7 @@ All vault paths start with `c:\HQ\KB\`. Use `grep_search` to find notes by conte
 4. **Create or update the MOC** via `write_to_file`:
 
    ```
-   write_to_file: c:\HQ\KB\99_System\MOC - Productivity.md
+   write_to_file: {vault_root}\99_System\MOC - Productivity.md
    ```
 
    Content:
