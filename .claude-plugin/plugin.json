@@ -1,6 +1,6 @@
 {
   "name": "hq-cortex",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "PKM toolkit for an Obsidian vault (KB): capture, connect, review, search, and synthesize notes. Reads the vault via the KB access contract in config.md.",
   "author": {
     "name": "Chris Ippolito"
